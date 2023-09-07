@@ -1,0 +1,32 @@
+.container {
+	background: url('../../Assets/background.jpg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-attachment: fixed;
+	background-size: cover;
+	height: 100%;
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+}
+
+.header {
+	text-align: center;
+	margin-bottom: 2rem;
+}
+
+.heading {
+	font-size: 2.5rem;
+	font-weight: bold;
+	color: white;
+}
+
+.main {
+	display: grid;
+	/* grid-template-columns: repeat(3, 1fr);
+	gap: 3rem; */
+}

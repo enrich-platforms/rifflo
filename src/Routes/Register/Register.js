@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styles from './Register.module.css';
 
-const Register = () => {
+const Register = (props) => {
 	const displayImageRef = useRef(null);
 	const [selectedImage, setSelectedImage] = useState(null);
 
@@ -15,8 +15,6 @@ const Register = () => {
 
 	const registerHandler = async (event) => {
 		event.preventDefault();
-
-		// Create FormData object
 		const formData = new FormData(event.target);
 		const reader = new FileReader();
 		reader.onload = (event) => {
@@ -24,18 +22,17 @@ const Register = () => {
 			let profile = {
 				displayName: formData.get('display-name'),
 				username: formData.get('username'),
-				displayImage: base64Image, // Assign the base64-encoded image directly
+				displayImage: base64Image,
 			};
 
-			// Send the formData object to the server or perform other actions
 			try {
 				window.ipcRenderer.send('register-user', profile);
-				// Handle the response as needed
 			} catch (error) {
 				console.log(error);
 			}
 		};
 		reader.readAsDataURL(displayImageRef.current.files[0]);
+		props.setIsRegistered(true);
 	};
 
 	return (

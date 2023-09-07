@@ -3,7 +3,7 @@
 	font-family: 'Noto Sans';
 	font-style: normal;
 	font-weight: 400;
-	src: url('../../../public/Assets/fonts/Noto_Sans/NotoSans-Regular.ttf')
+	src: url('../../Assets/fonts/Noto_Sans/NotoSans-Regular.ttf')
 		format('truetype');
 }
 
@@ -11,8 +11,7 @@
 	font-family: 'Noto Sans';
 	font-style: normal;
 	font-weight: 700;
-	src: url('../../../public/Assets/fonts/Noto_Sans/NotoSans-Bold.ttf')
-		format('truetype');
+	src: url('../../Assets/fonts/Noto_Sans/NotoSans-Bold.ttf') format('truetype');
 }
 
 /* Global Variables */
@@ -22,7 +21,7 @@
 
 /* Main Container */
 .register {
-	background: url('../../../public/Assets/background.jpg');
+	background: url('../../Assets/background.jpg');
 	background-repeat: no-repeat;
 	background-position: center;
 	background-attachment: fixed;

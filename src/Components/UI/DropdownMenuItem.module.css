@@ -1,0 +1,37 @@
+.dropdownMenuItem {
+	display: block;
+	border-bottom: 1px solid #1a1a1a;
+	background-color: #333;
+	transition: background-color 0.2s;
+}
+
+.dropdownMenuItem:last-child {
+	border-bottom: none;
+}
+
+.menuItemContent {
+	display: flex;
+	text-decoration: none;
+	color: white;
+	font-weight: 500;
+	cursor: pointer;
+	background-color: transparent;
+	border: none;
+	outline: none;
+	width: 100%;
+	text-align: left;
+	padding: 0;
+	font-size: inherit;
+}
+
+.menuItemContent:hover {
+	background-color: #1a1a1a;
+}
+
+.icon {
+	margin: 0.8rem 0.5rem 0.8rem 1rem;
+}
+
+.menuItemLabel {
+	margin: 0.8rem 1rem 0.8rem 0.5rem;
+}
