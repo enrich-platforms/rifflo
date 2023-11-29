@@ -1,6 +1,7 @@
 import styles from './ChatArea.module.css';
 import NewMessage from './NewMessage';
 import background from '../../../Assets/chat-screen.png';
+import ChatHistory from './ChatHistory';
 
 const ChatArea = ({ to }) => {
 	return (
@@ -17,7 +18,10 @@ const ChatArea = ({ to }) => {
 					</p>
 				</div>
 			) : (
-				<NewMessage to={to} />
+				<>
+					<ChatHistory username={to} />
+					<NewMessage to={to} />
+				</>
 			)}
 		</div>
 	);

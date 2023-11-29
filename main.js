@@ -21,12 +21,7 @@ const initializeUser = () => {
 	if (!fs.existsSync(path.join(userDataPath, 'chats'))) {
 		fs.mkdirSync(path.join(userDataPath, 'chats'));
 		const userDatabase = path.join(userDataPath, 'chats', 'database.json');
-		fs.writeFileSync(
-			userDatabase,
-			JSON.stringify({
-				chats: [],
-			})
-		);
+		fs.writeFileSync(userDatabase, JSON.stringify({}));
 	}
 };
 
@@ -64,7 +59,6 @@ app.on('activate', () => {
 		createWindow();
 	}
 });
-
 // Register user and save data
 ipcMain.on('register-user', (event, data) => {
 	const userProfilePath = path.join(userDataPath, 'user', 'userProfile.json');
@@ -81,6 +75,7 @@ ipcMain.on('register-user', (event, data) => {
 	event.reply('registration-successful', true);
 });
 
+let ownerUsername = '';
 // Check registration status
 ipcMain.on('check-registration', (event, data) => {
 	const userProfilePath = path.join(userDataPath, 'user', 'userProfile.json');
@@ -91,6 +86,7 @@ ipcMain.on('check-registration', (event, data) => {
 			registered: true,
 			userProfileData,
 		});
+		ownerUsername = JSON.parse(userProfileData).username;
 	} else {
 		event.reply('registration-status', {
 			registered: false,
@@ -119,10 +115,13 @@ ipcMain.on('set-server', (event, data) => {
 let serverProcess;
 
 ipcMain.on('start-server', (event) => {
-	serverProcess = spawn('node', ['server.js']);
+	serverProcess = spawn('node', [
+		'server.js',
+		ownerUsername,
+		path.join(app.getPath('userData'), 'data'),
+	]);
 
 	serverProcess.stdout.on('data', (data) => {
-		console.log(data.toString());
 		event.reply('server-up', data.toString());
 	});
 

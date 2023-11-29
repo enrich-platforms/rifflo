@@ -4,7 +4,7 @@ import plus from '../../../Assets/icons/UI/plus.svg';
 import send from '../../../Assets/icons/UI/send.svg';
 import { useRef } from 'react';
 
-const NewMessage = () => {
+const NewMessage = ({ to }) => {
 	const inputRef = useRef(null);
 	const sendMessage = async (event) => {
 		event.preventDefault();
@@ -16,18 +16,15 @@ const NewMessage = () => {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				username: JSON.parse(window.userData.userProfileData).username,
+				fromUsername: JSON.parse(window.userData.userProfileData).username,
+				toUsername: to,
 				message,
 			}),
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				console.log(data);
-			})
-			.catch((error) => {
-				console.error('Error:', error);
-			});
+		}).catch((error) => {
+			console.error('Error:', error);
+		});
 	};
+
 	return (
 		<div className={styles['new-message']}>
 			<div className={styles['emoji']}>
