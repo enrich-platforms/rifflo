@@ -13,27 +13,6 @@ const ChatScreen = (props) => {
 			username: 'a',
 			lastMessage: 'Hi',
 		},
-		{
-			id: Math.random(),
-			displayImage: photo,
-			displayName: 'B',
-			username: 'b',
-			lastMessage: 'Hello',
-		},
-		{
-			id: Math.random(),
-			displayImage: photo,
-			displayName: 'C',
-			username: 'c',
-			lastMessage: 'Heya',
-		},
-		{
-			id: Math.random(),
-			displayImage: photo,
-			displayName: 'D',
-			username: 'd',
-			lastMessage: 'hey',
-		},
 	];
 
 	return (

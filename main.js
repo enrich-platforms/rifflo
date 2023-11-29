@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const { spawn } = require('child_process');
 const fs = require('fs-extra');
 const path = require('path');
 
@@ -106,4 +107,13 @@ ipcMain.on('logout-user', async (event, data) => {
 		console.error('Error deleting files:', error);
 		event.reply('logout-error', error.message);
 	}
+});
+
+ipcMain.on('start-server', (event) => {
+	const serverProcess = spawn('node', ['server.js']);
+
+	serverProcess.stdout.on('data', (data) => {
+		console.log(data.toString());
+		event.reply('server-on', data.toString());
+	});
 });

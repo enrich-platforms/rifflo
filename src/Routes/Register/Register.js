@@ -22,6 +22,7 @@ const Register = (props) => {
 			let profile = {
 				displayName: formData.get('display-name'),
 				username: formData.get('username'),
+				server: formData.get('server'),
 				displayImage: base64Image,
 			};
 
@@ -88,6 +89,10 @@ const Register = (props) => {
 								type="text"
 								placeholder="Choose a unique username"
 							/>
+						</label>
+						<label htmlFor="server">
+							<span className={styles['label-text']}>Server</span>
+							<input name="server" type="text" placeholder="Enter you server" />
 						</label>
 						<button>Register</button>
 					</div>
