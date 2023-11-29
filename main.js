@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const { spawn } = require('child_process');
 const fs = require('fs-extra');
 const path = require('path');
+const os = require('os');
 
 // Define paths
 const preloadPath = path.join(__dirname, 'preload.js');
@@ -121,7 +122,6 @@ ipcMain.on('start-server', (event) => {
 	serverProcess = spawn('node', ['server.js']);
 
 	serverProcess.stdout.on('data', (data) => {
-		console.log(data.toString());
 		event.reply('server-up', data.toString());
 	});
 
@@ -140,3 +140,18 @@ ipcMain.on('stop-server', (event) => {
 		event.reply('server-not-running');
 	}
 });
+
+ipcMain.on('set-hostip', (event) => {
+	event.reply('set-hostip', getLocalIPAddress());
+});
+
+const getLocalIPAddress = () => {
+	const interfaces = os.networkInterfaces();
+	for (const name in interfaces) {
+		for (const net of interfaces[name]) {
+			if (net.family === 'IPv4' && !net.internal) {
+				return net.address;
+			}
+		}
+	}
+};

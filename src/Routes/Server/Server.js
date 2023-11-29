@@ -15,7 +15,7 @@ const Server = (props) => {
 		event.preventDefault();
 		if (selectedOption === 'join') {
 			const formData = new FormData(event.target);
-			const server = formData.get('server');
+			const server = formData.get('server').trim();
 			try {
 				window.ipcRenderer.send('set-server', server);
 			} catch (error) {
@@ -75,6 +75,11 @@ const Server = (props) => {
 							)}
 							{selectedOption === 'host' && (
 								<>
+									<label htmlFor="server">
+										<span className={styles['label-text']}>
+											{window.localIPAddress}
+										</span>
+									</label>
 									<button type="submit">Host</button>
 								</>
 							)}
