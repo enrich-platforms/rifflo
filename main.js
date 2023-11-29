@@ -122,6 +122,7 @@ ipcMain.on('start-server', (event) => {
 	serverProcess = spawn('node', ['server.js']);
 
 	serverProcess.stdout.on('data', (data) => {
+		console.log(data.toString());
 		event.reply('server-up', data.toString());
 	});
 

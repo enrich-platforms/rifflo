@@ -9,14 +9,14 @@ ipcRenderer.on('registration-status', (event, data) => {
 	contextBridge.exposeInMainWorld('userData', data);
 });
 
-ipcRenderer.once('server-on', (event, data) => {
+ipcRenderer.on('server-up', (event, data) => {
 	contextBridge.exposeInMainWorld('serverData', data.trim());
 });
 
-ipcRenderer.once('set-server', (event, data) => {
+ipcRenderer.on('set-server', (event, data) => {
 	contextBridge.exposeInMainWorld('serverData', data);
 });
 
-ipcRenderer.once('set-hostip', (event, data) => {
+ipcRenderer.on('set-hostip', (event, data) => {
 	contextBridge.exposeInMainWorld('localIPAddress', data);
 });

@@ -9,7 +9,7 @@ const NewMessage = () => {
 	const sendMessage = async (event) => {
 		event.preventDefault();
 		const message = inputRef.current.value;
-		const serverURI = JSON.parse(window.userData.userProfileData).server;
+		const serverURI = window.serverData;
 		fetch(`http://${serverURI}:49152/send-message`, {
 			method: 'POST',
 			headers: {
