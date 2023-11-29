@@ -109,11 +109,34 @@ ipcMain.on('logout-user', async (event, data) => {
 	}
 });
 
+// Messaging Server
+
+ipcMain.on('set-server', (event, data) => {
+	event.reply('set-server', data);
+});
+
+let serverProcess;
+
 ipcMain.on('start-server', (event) => {
-	const serverProcess = spawn('node', ['server.js']);
+	serverProcess = spawn('node', ['server.js']);
 
 	serverProcess.stdout.on('data', (data) => {
 		console.log(data.toString());
-		event.reply('server-on', data.toString());
+		event.reply('server-up', data.toString());
 	});
+
+	serverProcess.on('close', (code) => {
+		console.log(`Server process exited with code ${code}`);
+		event.reply('server-down', code);
+	});
+});
+
+ipcMain.on('stop-server', (event) => {
+	if (serverProcess) {
+		serverProcess.kill();
+		serverProcess = null;
+		event.reply('server-stopped');
+	} else {
+		event.reply('server-not-running');
+	}
 });

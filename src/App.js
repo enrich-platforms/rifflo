@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Register from './Routes/Register/Register';
 import Home from './Routes/Home/Home';
 import ChatScreen from './Routes/Chats/ChatScreen';
+import Server from './Routes/Server/Server';
 
 function App() {
 	const userData = window.userData;
@@ -27,6 +28,10 @@ function App() {
 					<Route
 						path="/chats"
 						element={<ChatScreen logoutHandler={logoutHandler} />}
+					></Route>
+					<Route
+						path="/server"
+						element={<Server logoutHandler={logoutHandler} />}
 					></Route>
 				</Routes>
 			</Router>

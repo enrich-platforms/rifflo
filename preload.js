@@ -8,8 +8,12 @@ ipcRenderer.on('registration-status', (event, data) => {
 	contextBridge.exposeInMainWorld('userData', data);
 });
 
-if (!window.serverData) {
-	ipcRenderer.on('server-on', (event, data) => {
-		contextBridge.exposeInMainWorld('serverData', data.trim());
-	});
-}
+// if (!window.serverData) {
+// 	ipcRenderer.on('server-on', (event, data) => {
+// 		contextBridge.exposeInMainWorld('serverData', data.trim());
+// 	});
+// }
+
+ipcRenderer.on('set-server', (event, data) => {
+	contextBridge.exposeInMainWorld('serverData', data);
+});
