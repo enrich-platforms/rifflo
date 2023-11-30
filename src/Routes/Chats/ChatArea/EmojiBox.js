@@ -4,9 +4,25 @@ const EmojiBox = ({ inputRef }) => {
 	const emojis = ['😂', '😅', '😝', '😎', '🤓', '😂', '😅'];
 
 	const emojiHandler = (emoji) => {
-		inputRef.current.textContent += emoji;
-		inputRef.current.focus();
+		const input = inputRef.current;
+
+		// Save the current selection
+		const selection = window.getSelection();
+		const range = selection.getRangeAt(0);
+
+		// Insert the emoji at the end
+		input.innerHTML += emoji;
+
+		// Move the cursor to the end
+		range.setStart(input.lastChild, input.lastChild.length);
+		range.collapse(true);
+		selection.removeAllRanges();
+		selection.addRange(range);
+
+		// Set focus to the input
+		input.focus();
 	};
+
 	return (
 		<div className={styles['EmojiBoxWrapper']}>
 			<ul>
