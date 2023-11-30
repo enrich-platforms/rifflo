@@ -38,6 +38,7 @@ function createWindow() {
 			contextIsolation: true,
 			preload: preloadPath,
 		},
+		icon: '/assets/icon.png',
 	});
 	// if (process.env.NODE_ENV === 'development') {
 	// 	win.loadURL('http://localhost:3000');
