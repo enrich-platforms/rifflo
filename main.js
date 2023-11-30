@@ -77,7 +77,8 @@ app.on('will-quit', () => {
 // Register user and save data
 ipcMain.on('register-user', (event, data) => {
 	const userProfilePath = path.join(userDataPath, 'user', 'userProfile.json');
-	fs.writeFileSync(userProfilePath, JSON.stringify(data));
+	const stringifyData = JSON.stringify(data);
+	fs.writeFileSync(userProfilePath, stringifyData);
 
 	const imageBuffer = Buffer.from(
 		data.displayImage.replace(/^data:image\/\w+;base64,/, ''),
@@ -87,7 +88,11 @@ ipcMain.on('register-user', (event, data) => {
 
 	fs.writeFileSync(displayImagePath, imageBuffer);
 
-	event.reply('registration-successful', true);
+	event.reply('registration-successful', {
+		registered: true,
+		userProfileData: stringifyData,
+		ownerUsername,
+	});
 });
 
 let ownerUsername = '';
@@ -115,7 +120,7 @@ ipcMain.on('logout-user', async (event, data) => {
 	try {
 		await fs.remove(userDataPath);
 		initializeUser();
-		event.reply('logout-successful');
+		event.reply('logout-successful', { registered: false });
 	} catch (error) {
 		console.error('Error deleting files:', error);
 		event.reply('logout-error', error.message);

@@ -13,9 +13,6 @@ function App() {
 		setIsRegistered(false);
 	};
 
-	useEffect(() => {
-		setIsRegistered(window.userData);
-	}, [window.userData]);
 	return (
 		<div className="App">
 			<Router>

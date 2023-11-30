@@ -16,7 +16,7 @@ const Navbar = (props) => {
 		if (window.userData && window.userData.userProfileData) {
 			setUserData(JSON.parse(window.userData.userProfileData));
 		}
-	}, []);
+	}, [window.userData]);
 
 	return (
 		<nav className={styles.navbar}>
