@@ -42,8 +42,6 @@ const updateDatabase = (username, lastMessage) => {
 
 app.post('/send-message', (req, res) => {
 	const { fromUsername, toUsername, message } = req.body;
-
-	// console.log(`Message received from ${username} - ${message}`);
 	const chatFileName =
 		fromUsername === ownerUsername ? toUsername : fromUsername;
 	// Create or load the chat JSON file based on the sender's username
@@ -93,9 +91,12 @@ app.get('/messages', (req, res) => {
 	const chatFilePath = path.join(chatsDirectory, `${username}.json`);
 
 	if (!fs.existsSync(chatFilePath)) {
-		return res
-			.status(404)
-			.json({ error: 'Chat not found for the given username' });
+		const chatData = {
+			owner: ownerUsername,
+			otherPerson: username,
+			messages: [],
+		};
+		fs.writeFileSync(chatFilePath, JSON.stringify(chatData, null, 2), 'utf8');
 	}
 
 	const chatFileContent = fs.readFileSync(chatFilePath, 'utf8');

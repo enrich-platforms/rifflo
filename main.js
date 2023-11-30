@@ -39,7 +39,11 @@ function createWindow() {
 			preload: preloadPath,
 		},
 	});
-
+	// if (process.env.NODE_ENV === 'development') {
+	// 	win.loadURL('http://localhost:3000');
+	// } else {
+	// 	win.loadFile('./build/index.html');
+	// }
 	win.loadURL('http://localhost:3000');
 
 	globalShortcut.register('CommandOrControl+R', () => {

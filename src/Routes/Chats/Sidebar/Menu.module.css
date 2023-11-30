@@ -4,10 +4,20 @@
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
+	background: #121212;
 }
 
 .menu-button {
-	/* Your existing button styles */
+	background: transparent;
+	outline: none;
+	border: none;
+	cursor: pointer;
+}
+
+.menu-button > img {
+	background: #0f62fe;
+	padding: 6px;
+	border-radius: 50%;
 }
 
 .modal-backdrop {

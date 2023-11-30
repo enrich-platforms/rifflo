@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Register from './Routes/Register/Register';
 import Home from './Routes/Home/Home';
@@ -7,12 +7,15 @@ import ChatScreen from './Routes/Chats/ChatScreen';
 import Server from './Routes/Server/Server';
 
 function App() {
-	const userData = window.userData;
-	const [isRegistered, setIsRegistered] = useState(userData.registered);
+	const [isRegistered, setIsRegistered] = useState(false);
 	const logoutHandler = () => {
 		window.ipcRenderer.send('logout-user');
 		setIsRegistered(false);
 	};
+
+	useEffect(() => {
+		setIsRegistered(window.userData);
+	}, [window.userData]);
 	return (
 		<div className="App">
 			<Router>

@@ -51,6 +51,7 @@ const NewMessage = ({ to, fetchChats }) => {
 			<div className={styles['text-message-container']}>
 				<div
 					contentEditable="true"
+					suppressContentEditableWarning={true}
 					className={`${styles['writtable']} `}
 					spellCheck="true"
 					title="Type a message"

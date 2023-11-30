@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styles from './Menu.module.css';
+import plus from '../../../Assets/icons/UI/plus.svg';
+import home from '../../../Assets/icons/UI/home.svg';
 
 const Menu = ({ setTo }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,10 +28,10 @@ const Menu = ({ setTo }) => {
 	return (
 		<div className={styles['menu']}>
 			<button className={styles['menu-button']} onClick={resetHandler}>
-				Reset Chat
+				<img src={home} alt="Home" />
 			</button>
 			<button className={styles['menu-button']} onClick={newChatHandler}>
-				New Chat
+				<img src={plus} alt="New Chat" />
 			</button>
 
 			{isModalOpen && (
@@ -43,7 +45,7 @@ const Menu = ({ setTo }) => {
 							<span className={styles['close']} onClick={closeModalHandler}>
 								&times;
 							</span>
-							<label htmlFor="newChatInput">Enter Text:</label>
+							<label htmlFor="newChatInput">Enter Username:</label>
 							<input
 								type="text"
 								id="newChatInput"
