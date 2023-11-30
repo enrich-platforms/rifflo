@@ -3,7 +3,7 @@ import NewMessage from './NewMessage';
 import background from '../../../Assets/chat-screen.png';
 import ChatHistory from './ChatHistory';
 
-const ChatArea = ({ to }) => {
+const ChatArea = ({ to, fetchChats }) => {
 	return (
 		<div className={styles['chat-area']}>
 			{!to ? (
@@ -20,7 +20,7 @@ const ChatArea = ({ to }) => {
 			) : (
 				<>
 					<ChatHistory username={to} />
-					<NewMessage to={to} />
+					<NewMessage to={to} fetchChats={fetchChats} />
 				</>
 			)}
 		</div>

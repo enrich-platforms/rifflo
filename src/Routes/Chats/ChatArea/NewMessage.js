@@ -4,11 +4,11 @@ import plus from '../../../Assets/icons/UI/plus.svg';
 import send from '../../../Assets/icons/UI/send.svg';
 import { useRef } from 'react';
 
-const NewMessage = ({ to }) => {
+const NewMessage = ({ to, fetchChats }) => {
 	const inputRef = useRef(null);
 	const sendMessage = async (event) => {
 		event.preventDefault();
-		const message = inputRef.current.value;
+		const message = inputRef.current.textContent.trim();
 		const serverURI = window.serverData;
 		fetch(`http://${serverURI}:49152/send-message`, {
 			method: 'POST',
@@ -23,6 +23,9 @@ const NewMessage = ({ to }) => {
 		}).catch((error) => {
 			console.error('Error:', error);
 		});
+		inputRef.current.textContent = '';
+		fetchChats();
+		inputRef.current.focus();
 	};
 
 	return (
@@ -34,12 +37,15 @@ const NewMessage = ({ to }) => {
 				<img src={plus} alt="Add Icon" />
 			</div>
 			<div className={styles['text-message-container']}>
-				<input
-					className={`${styles['writtable']} ${styles['text-message-wrapper']} ${styles['text-message']}`}
+				<div
+					contentEditable="true"
+					className={`${styles['writtable']} `}
 					spellCheck="true"
 					title="Type a message"
 					ref={inputRef}
-				/>
+				>
+					Type a message
+				</div>
 				{/* <div className={styles['writtable-placeholder']}>Type a message</div> */}
 			</div>
 			<div className={styles['send-btn-wrapper']}>

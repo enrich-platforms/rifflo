@@ -15,12 +15,27 @@ const userDataPath = process.argv[3];
 const chatsDirectory = path.join(userDataPath, 'chats');
 const databasePath = path.join(userDataPath, 'chats', 'database.json');
 
-const updateDatabase = (chatFileName, lastMessage) => {
+const updateDatabase = (username, lastMessage) => {
 	const database = fs.existsSync(databasePath)
 		? JSON.parse(fs.readFileSync(databasePath, 'utf8'))
-		: {};
+		: { chats: [] };
 
-	database[chatFileName] = lastMessage;
+	const existingChatIndex = database.chats.findIndex(
+		(chat) => chat.username === username
+	);
+
+	if (existingChatIndex !== -1) {
+		// Update existing chat
+		database.chats[existingChatIndex].lastMessage = lastMessage.lastMessage;
+		database.chats[existingChatIndex].timestamp = lastMessage.timestamp;
+	} else {
+		// Add new chat
+		database.chats.push({
+			username,
+			lastMessage: lastMessage.lastMessage,
+			timestamp: lastMessage.timestamp,
+		});
+	}
 
 	fs.writeFileSync(databasePath, JSON.stringify(database, null, 2), 'utf8');
 };
@@ -65,7 +80,6 @@ app.post('/send-message', (req, res) => {
 		lastMessage: message,
 		timestamp,
 	});
-
 	res.json({ success: true, message: 'Message received successfully' });
 });
 
@@ -76,15 +90,15 @@ app.get('/messages', (req, res) => {
 		return res.status(400).json({ error: 'Username parameter is required' });
 	}
 
-	const chatFileName = path.join(chatsDirectory, `${username}.json`);
+	const chatFilePath = path.join(chatsDirectory, `${username}.json`);
 
-	if (!fs.existsSync(chatFileName)) {
+	if (!fs.existsSync(chatFilePath)) {
 		return res
 			.status(404)
 			.json({ error: 'Chat not found for the given username' });
 	}
 
-	const chatFileContent = fs.readFileSync(chatFileName, 'utf8');
+	const chatFileContent = fs.readFileSync(chatFilePath, 'utf8');
 	// const chatData = JSON.parse(chatFileContent);
 
 	res.json(chatFileContent);
@@ -92,18 +106,12 @@ app.get('/messages', (req, res) => {
 });
 
 app.get('/chats', (req, res) => {
-	if (!fs.existsSync(chatsDirectory)) {
+	if (!fs.existsSync(databasePath)) {
 		return res.json([]);
 	}
 
-	const database = JSON.parse(fs.readFileSync(chatsDirectory, 'utf8'));
-	const chatList = Object.keys(database).map((chatFileName) => ({
-		chatFileName,
-		lastMessage: database[chatFileName].lastMessage,
-		timestamp: database[chatFileName].timestamp,
-	}));
-
-	res.json(chatList);
+	const database = JSON.parse(fs.readFileSync(databasePath, 'utf8'));
+	res.json(database.chats);
 });
 
 const getLocalIPAddress = () => {

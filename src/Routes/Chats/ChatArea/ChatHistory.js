@@ -37,8 +37,8 @@ const ChatHistory = ({ username }) => {
 		setTimeout(() => {
 			fetchMessages();
 			// Fetch messages every 2 seconds
-			intervalId = setInterval(fetchMessages, 2000);
-		}, 500);
+			intervalId = setInterval(fetchMessages, 500);
+		}, 1000);
 
 		// Cleanup interval on component unmount
 		return () => clearInterval(intervalId);

@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, globalShortcut } = require('electron');
 const { spawn } = require('child_process');
 const fs = require('fs-extra');
 const path = require('path');
@@ -21,7 +21,7 @@ const initializeUser = () => {
 	if (!fs.existsSync(path.join(userDataPath, 'chats'))) {
 		fs.mkdirSync(path.join(userDataPath, 'chats'));
 		const userDatabase = path.join(userDataPath, 'chats', 'database.json');
-		fs.writeFileSync(userDatabase, JSON.stringify({}));
+		fs.writeFileSync(userDatabase, JSON.stringify({ chats: [] }));
 	}
 };
 
@@ -41,6 +41,11 @@ function createWindow() {
 	});
 
 	win.loadURL('http://localhost:3000');
+
+	globalShortcut.register('CommandOrControl+R', () => {
+		// Do nothing or show a message to indicate the shortcut is disabled
+		console.log('Refresh shortcut is disabled');
+	});
 }
 
 // Create the main window when the app is ready
@@ -59,6 +64,11 @@ app.on('activate', () => {
 		createWindow();
 	}
 });
+
+app.on('will-quit', () => {
+	globalShortcut.unregisterAll();
+});
+
 // Register user and save data
 ipcMain.on('register-user', (event, data) => {
 	const userProfilePath = path.join(userDataPath, 'user', 'userProfile.json');
