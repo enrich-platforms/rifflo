@@ -5,6 +5,7 @@ const EmojiBox = ({ inputRef }) => {
 
 	const emojiHandler = (emoji) => {
 		inputRef.current.textContent += emoji;
+		inputRef.current.focus();
 	};
 	return (
 		<div className={styles['EmojiBoxWrapper']}>

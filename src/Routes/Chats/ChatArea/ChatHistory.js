@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './ChatHistory.module.css';
 import loadingGIF from './../../../Assets/chat-loading.gif';
 
@@ -25,6 +25,11 @@ const ChatHistory = ({ username }) => {
 	const [chatHistory, setChatHistory] = useState({});
 	const [loading, setLoading] = useState(true);
 	const divRef = useRef(null);
+	const prevChildCount = useRef(0);
+
+	const scrollToBottom = () => {
+		divRef.current.scrollTop = divRef.current.scrollHeight;
+	};
 
 	const fetchMessages = () => {
 		const serverURI = window.serverData;
@@ -54,16 +59,19 @@ const ChatHistory = ({ username }) => {
 			// Fetch messages every 2 seconds
 			intervalId = setInterval(fetchMessages, 500);
 		}, 1000);
-
 		// Cleanup interval on component unmount
 		return () => clearInterval(intervalId);
 	}, []);
 
 	useEffect(() => {
 		if (divRef.current) {
-			divRef.current.scrollTop = divRef.current.scrollHeight;
+			const childCount = divRef.current.children.length;
+			if (childCount !== prevChildCount.current) {
+				scrollToBottom();
+				prevChildCount.current = childCount;
+			}
 		}
-	}, [loading]);
+	}, [loading, chatHistory.messages]);
 
 	return (
 		<div className={styles['chat-history']}>
