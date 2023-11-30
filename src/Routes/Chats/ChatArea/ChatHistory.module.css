@@ -1,3 +1,15 @@
+.loading {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+}
+
+.loading > img {
+	height: 48px;
+}
+
 .chat-history {
 	padding: 12px 0px;
 	width: 100%;

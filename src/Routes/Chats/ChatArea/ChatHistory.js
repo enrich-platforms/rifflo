@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './ChatHistory.module.css';
+import loadingGIF from './../../../Assets/chat-loading.gif';
 
 const Message = ({ sender, message, timestamp }) => {
 	return (
@@ -58,9 +59,19 @@ const ChatHistory = ({ username }) => {
 		return () => clearInterval(intervalId);
 	}, []);
 
+	useEffect(() => {
+		if (divRef.current) {
+			divRef.current.scrollTop = divRef.current.scrollHeight;
+		}
+	}, [loading]);
+
 	return (
 		<div className={styles['chat-history']}>
-			{loading && <p>Loading...</p>}
+			{loading && (
+				<div className={styles['loading']}>
+					<img src={loadingGIF} alt="loading" />
+				</div>
+			)}
 			{!loading && chatHistory.messages && (
 				<div className={styles['chat-wrapper']} ref={divRef}>
 					{chatHistory.messages.map((msg, index) => (
