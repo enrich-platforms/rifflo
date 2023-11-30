@@ -1,15 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import styles from './ChatHistory.module.css';
 
-const Message = ({ sender, message }) => (
-	<div>
-		<strong>{sender}: </strong>
-		{message}
-	</div>
-);
+const Message = ({ sender, message, timestamp }) => {
+	return (
+		<div className={`${styles['message']}`}>
+			<div
+				className={`${styles['message-wrapper']} ${
+					sender === `${window.userData.ownerUsername}`
+						? `${styles['owner']}`
+						: `${styles['other']}`
+				}`}
+			>
+				<div className={`${styles['message-container']}`}>
+					<span className={styles['message-text']}>{message}</span>
+				</div>
+				<div className={styles['timestamp']}>{timestamp}</div>
+			</div>
+		</div>
+	);
+};
 
 const ChatHistory = ({ username }) => {
 	const [chatHistory, setChatHistory] = useState({});
 	const [loading, setLoading] = useState(true);
+	const divRef = useRef(null);
 
 	const fetchMessages = () => {
 		const serverURI = window.serverData;
@@ -45,12 +59,20 @@ const ChatHistory = ({ username }) => {
 	}, []);
 
 	return (
-		<div>
+		<div className={styles['chat-history']}>
 			{loading && <p>Loading...</p>}
 			{!loading && chatHistory.messages && (
-				<div>
+				<div className={styles['chat-wrapper']} ref={divRef}>
 					{chatHistory.messages.map((msg, index) => (
-						<Message key={index} sender={msg.sender} message={msg.message} />
+						<Message
+							key={index}
+							sender={msg.sender}
+							message={msg.message}
+							timestamp={new Date(msg.timestamp).toLocaleString('en-US', {
+								hour: '2-digit',
+								minute: '2-digit',
+							})}
+						/>
 					))}
 				</div>
 			)}

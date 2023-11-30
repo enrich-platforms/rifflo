@@ -4,6 +4,7 @@
 	right: 0;
 	width: 100%;
 	background-color: #212121;
+	/* background-color: rgb(255, 255, 255, 0.4); */
 	display: flex;
 	align-items: center;
 	padding: 8px 0px 8px 0px;
@@ -11,8 +12,10 @@
 
 .new-message > .emoji {
 	margin: 12px 8px 12px 26px;
-	cursor: pointer;
 	align-self: flex-end;
+}
+.new-message > .emoji > img {
+	cursor: pointer;
 }
 
 .new-message > .attachment {

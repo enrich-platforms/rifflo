@@ -1,0 +1,35 @@
+.EmojiBoxWrapper {
+	height: auto;
+	max-height: 300px;
+	width: 250px;
+	background-color: #1a1a1a;
+	position: absolute;
+	bottom: 50px;
+	border-radius: 10px;
+}
+
+.EmojiBoxWrapper > ul {
+	display: flex;
+	flex-wrap: wrap;
+	list-style-type: none;
+	padding-left: 3%;
+	overflow-x: hidden;
+	max-height: 200px;
+}
+
+.EmojiBoxWrapper > ul::-webkit-scrollbar {
+	width: 0px;
+}
+
+.EmojiBoxWrapper > ul > li:hover {
+	cursor: pointer;
+	background-color: #212121;
+	border-radius: 8px;
+}
+
+.EmojiBoxWrapper > ul > li > div {
+	margin: 7px;
+	height: 26px;
+	width: 25px;
+	text-align: center;
+}

@@ -2,9 +2,15 @@ import styles from './NewMessage.module.css';
 import emoji from '../../../Assets/icons/UI/emoji.svg';
 import plus from '../../../Assets/icons/UI/plus.svg';
 import send from '../../../Assets/icons/UI/send.svg';
-import { useRef } from 'react';
+import EmojiBox from './EmojiBox';
+import { useRef, useState } from 'react';
 
 const NewMessage = ({ to, fetchChats }) => {
+	const [showEmojiBox, setShowEmojiBox] = useState(false);
+
+	const emojiButtonClicked = () => {
+		setShowEmojiBox(!showEmojiBox);
+	};
 	const inputRef = useRef(null);
 
 	const handleKeyDown = (event) => {
@@ -43,7 +49,8 @@ const NewMessage = ({ to, fetchChats }) => {
 	return (
 		<div className={styles['new-message']}>
 			<div className={styles['emoji']}>
-				<img src={emoji} alt="Emoji Icon" />
+				<img src={emoji} alt="Emoji Icon" onClick={emojiButtonClicked} />
+				{showEmojiBox && <EmojiBox inputRef={inputRef} />}
 			</div>
 			<div className={styles['attachment']}>
 				<img src={plus} alt="Add Icon" />

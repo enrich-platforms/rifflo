@@ -97,11 +97,12 @@ ipcMain.on('check-registration', (event, data) => {
 
 	if (fs.existsSync(userProfilePath)) {
 		const userProfileData = fs.readFileSync(userProfilePath, 'utf-8');
+		ownerUsername = JSON.parse(userProfileData).username;
 		event.reply('registration-status', {
 			registered: true,
 			userProfileData,
+			ownerUsername,
 		});
-		ownerUsername = JSON.parse(userProfileData).username;
 	} else {
 		event.reply('registration-status', {
 			registered: false,
