@@ -91,7 +91,7 @@ ipcMain.on('register-user', (event, data) => {
 	event.reply('registration-successful', {
 		registered: true,
 		userProfileData: stringifyData,
-		ownerUsername,
+		ownerUsername: data.username,
 	});
 });
 

@@ -7,6 +7,7 @@ const Feature = ({ to, title, icon, onClick }) => {
 			<Link to={to} className={styles.featureLink}>
 				<img src={icon} alt="Video Call" className={styles.featureIcon} />
 			</Link>
+			<h2>{title}</h2>
 		</div>
 	);
 };

@@ -4,7 +4,9 @@ import photo from '../../../Assets/logo.png';
 const UserChat = (props) => {
 	return (
 		<div
-			className={styles['user-chat']}
+			className={`${styles['user-chat']} ${
+				props.username === props.to ? `${styles['to']}` : ''
+			}`}
 			onClick={() => {
 				props.setTo(props.username);
 			}}

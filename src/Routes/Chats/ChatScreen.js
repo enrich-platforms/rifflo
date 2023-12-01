@@ -34,7 +34,7 @@ const ChatScreen = (props) => {
 	return (
 		<div className={styles.chats}>
 			<Navbar logoutHandler={props.logoutHandler}></Navbar>
-			<Sidebar chats={chats} setTo={setTo} loading={loading} />
+			<Sidebar to={to} chats={chats} setTo={setTo} loading={loading} />
 			<ChatArea to={to} fetchChats={fetchChats} />
 		</div>
 	);

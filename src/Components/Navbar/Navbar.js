@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Navbar.module.css';
 import DropdownMenuItem from '../UI/DropdownMenuItem';
@@ -6,17 +6,9 @@ import logo from '../../Assets/logo.png';
 
 const Navbar = (props) => {
 	const dropdownCheckboxRef = useRef(null);
-
 	const toggleDropdown = () => {
 		dropdownCheckboxRef.current.checked = !dropdownCheckboxRef.current.checked;
 	};
-	const [userData, setUserData] = useState(null);
-
-	useEffect(() => {
-		if (window.userData && window.userData.userProfileData) {
-			setUserData(JSON.parse(window.userData.userProfileData));
-		}
-	}, [window.userData]);
 
 	return (
 		<nav className={styles.navbar}>
@@ -37,13 +29,11 @@ const Navbar = (props) => {
 						/>
 						<label htmlFor="profileDropdown" className={styles.dropdownLabel}>
 							<button className={styles.profileButton} onClick={toggleDropdown}>
-								{userData && userData.displayImage && (
-									<img
-										className={styles.displayImage}
-										src={userData.displayImage}
-										alt="User Profile"
-									/>
-								)}
+								<img
+									className={styles.displayImage}
+									src={JSON.parse(window.userData.userProfileData).displayImage}
+									alt="User Profile"
+								/>
 							</button>
 						</label>
 						<ul className={styles.dropdownMenu}>

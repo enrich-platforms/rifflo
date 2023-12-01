@@ -8,6 +8,10 @@
 	cursor: pointer;
 }
 
+.to {
+	background-color: #232323;
+}
+
 .user-profile {
 	justify-self: center;
 	display: block;
