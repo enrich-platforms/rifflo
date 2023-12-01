@@ -35,7 +35,7 @@ function createWindow() {
 		minHeight: 720,
 		frame: false,
 		webPreferences: {
-			// devTools: false,
+			devTools: process.env.NODE_ENV === 'development',
 			contextIsolation: true,
 			preload: preloadPath,
 		},
