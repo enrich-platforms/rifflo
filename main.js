@@ -21,7 +21,7 @@ const initializeUser = () => {
 	if (!fs.existsSync(path.join(userDataPath, 'chats'))) {
 		fs.mkdirSync(path.join(userDataPath, 'chats'));
 		const userDatabase = path.join(userDataPath, 'chats', 'database.json');
-		fs.writeFileSync(userDatabase, JSON.stringify({ chats: [] }));
+		fs.writeFileSync(userDatabase, JSON.stringify({}));
 	}
 };
 
@@ -35,6 +35,7 @@ function createWindow() {
 		minHeight: 720,
 		frame: false,
 		webPreferences: {
+			// devTools: false,
 			contextIsolation: true,
 			preload: preloadPath,
 		},

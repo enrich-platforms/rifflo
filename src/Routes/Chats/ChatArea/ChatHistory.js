@@ -36,7 +36,10 @@ const ChatHistory = ({ username }) => {
 		const { signal } = abortControllerRef.current.signal;
 		const serverURI = window.serverData;
 
-		fetch(`http://${serverURI}:49152/messages?username=${username}`, { signal })
+		fetch(
+			`http://${serverURI}:49152/messages?toUsername=${username}&fromUsername=${window.userData.ownerUsername}`,
+			{ signal }
+		)
 			.then((response) => {
 				if (!response.ok) {
 					throw new Error(`HTTP error! Status: ${response.status}`);

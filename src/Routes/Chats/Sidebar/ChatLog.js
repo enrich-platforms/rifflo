@@ -9,7 +9,7 @@ const ChatLog = ({ to, chats, setTo }) => {
 				<UserChat
 					to={to}
 					key={index}
-					username={chat.username}
+					username={chat.to}
 					lastMessage={chat.lastMessage}
 					setTo={setTo}
 				/>

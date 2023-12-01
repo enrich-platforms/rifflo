@@ -27,10 +27,17 @@ const ChatScreen = (props) => {
 	};
 
 	useEffect(() => {
+		let fetchInterval;
 		// Fetch messages initially
-		setTimeout(() => {
+		const fetchTimeout = setTimeout(() => {
 			fetchChats();
+			fetchInterval = setInterval(fetchChats, 500);
 		}, 1000);
+
+		return () => {
+			clearInterval(fetchTimeout);
+			clearInterval(fetchInterval);
+		};
 	}, []);
 
 	return (

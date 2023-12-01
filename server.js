@@ -15,25 +15,54 @@ const userDataPath = process.argv[3];
 const chatsDirectory = path.join(userDataPath, 'chats');
 const databasePath = path.join(userDataPath, 'chats', 'database.json');
 
-const updateDatabase = (username, lastMessage) => {
+const updateDatabase = (fromUsername, toUsername, messasgeData) => {
 	const database = fs.existsSync(databasePath)
 		? JSON.parse(fs.readFileSync(databasePath, 'utf8'))
-		: { chats: [] };
+		: {};
+	const senderChats = database[`${fromUsername}`];
+	const receivedChats = database[`${toUsername}`];
 
-	const existingChatIndex = database.chats.findIndex(
-		(chat) => chat.username === username
+	if (!senderChats) {
+		database[`${fromUsername}`] = [];
+	}
+
+	if (!receivedChats) {
+		database[`${toUsername}`] = [];
+	}
+
+	const senderChatIndex = database[`${fromUsername}`].findIndex(
+		(chat) => chat.to === toUsername
 	);
 
-	if (existingChatIndex !== -1) {
-		// Update existing chat
-		database.chats[existingChatIndex].lastMessage = lastMessage.lastMessage;
-		database.chats[existingChatIndex].timestamp = lastMessage.timestamp;
+	const receiverChatIndex = database[`${toUsername}`].findIndex(
+		(chat) => chat.to === fromUsername
+	);
+
+	if (senderChatIndex !== -1) {
+		database[`${fromUsername}`][senderChatIndex].lastMessage =
+			messasgeData.lastMessage;
+		database[`${fromUsername}`][senderChatIndex].timestamp =
+			messasgeData.timestamp;
 	} else {
-		// Add new chat
-		database.chats.push({
-			username,
-			lastMessage: lastMessage.lastMessage,
-			timestamp: lastMessage.timestamp,
+		database[`${fromUsername}`].push({
+			chatFileName: messasgeData.chatFileName,
+			to: toUsername,
+			lastMessage: messasgeData.lastMessage,
+			timestamp: messasgeData.timestamp,
+		});
+	}
+
+	if (receiverChatIndex !== -1) {
+		database[`${toUsername}`][receiverChatIndex].lastMessage =
+			messasgeData.lastMessage;
+		database[`${toUsername}`][receiverChatIndex].timestamp =
+			messasgeData.timestamp;
+	} else {
+		database[`${toUsername}`].push({
+			chatFileName: messasgeData.chatFileName,
+			to: fromUsername,
+			lastMessage: messasgeData.lastMessage,
+			timestamp: messasgeData.timestamp,
 		});
 	}
 
@@ -42,21 +71,30 @@ const updateDatabase = (username, lastMessage) => {
 
 app.post('/send-message', (req, res) => {
 	const { fromUsername, toUsername, message } = req.body;
-	const chatFileName =
-		fromUsername === ownerUsername ? toUsername : fromUsername;
-	// Create or load the chat JSON file based on the sender's username
-	const chatFilePath = path.join(chatsDirectory, `${chatFileName}.json`);
+	const chatFileName1 = `${fromUsername}-${toUsername}`;
+	const chatFileName2 = `${toUsername}-${fromUsername}`;
+	const chatFilePath1 = path.join(chatsDirectory, `${chatFileName1}.json`);
+	const chatFilePath2 = path.join(chatsDirectory, `${chatFileName2}.json`);
+	let chatFileName;
+	let chatFilePath;
 	let chatData = {};
 
-	if (fs.existsSync(chatFilePath)) {
-		// If the chat file exists, load its content
-		const chatFileContent = fs.readFileSync(chatFilePath, 'utf8');
+	if (fs.existsSync(chatFilePath1)) {
+		chatFileName = chatFileName1;
+		chatFilePath = chatFilePath1;
+		const chatFileContent = fs.readFileSync(chatFilePath1, 'utf8');
+		chatData = JSON.parse(chatFileContent);
+	} else if (fs.existsSync(chatFilePath2)) {
+		chatFileName = chatFileName2;
+		chatFilePath = chatFilePath2;
+		const chatFileContent = fs.readFileSync(chatFilePath2, 'utf8');
 		chatData = JSON.parse(chatFileContent);
 	} else {
+		chatFileName = chatFileName1;
+		chatFilePath = chatFilePath1;
 		// If the chat file doesn't exist, initialize with owner and sender details
 		chatData = {
-			owner: ownerUsername,
-			otherPerson: chatFileName,
+			participants: [],
 			messages: [],
 		};
 	}
@@ -74,7 +112,8 @@ app.post('/send-message', (req, res) => {
 	fs.writeFileSync(chatFilePath, JSON.stringify(chatData, null, 2), 'utf8');
 
 	// Update the database with the last message
-	updateDatabase(chatFileName, {
+	updateDatabase(fromUsername, toUsername, {
+		chatFileName,
 		lastMessage: message,
 		timestamp,
 	});
@@ -82,28 +121,30 @@ app.post('/send-message', (req, res) => {
 });
 
 app.get('/messages', (req, res) => {
-	const { username } = req.query;
+	const { fromUsername, toUsername } = req.query;
 
-	if (!username) {
+	if (!fromUsername || !toUsername) {
 		return res.status(400).json({ error: 'Username parameter is required' });
 	}
 
-	const chatFilePath = path.join(chatsDirectory, `${username}.json`);
+	const chatFileName1 = `${fromUsername}-${toUsername}`;
+	const chatFileName2 = `${toUsername}-${fromUsername}`;
+	const chatFilePath1 = path.join(chatsDirectory, `${chatFileName1}.json`);
+	const chatFilePath2 = path.join(chatsDirectory, `${chatFileName2}.json`);
 
-	if (!fs.existsSync(chatFilePath)) {
+	if (fs.existsSync(chatFilePath1)) {
+		const chatFileContent = fs.readFileSync(chatFilePath1, 'utf8');
+		res.json(chatFileContent);
+	} else if (fs.existsSync(chatFilePath2)) {
+		const chatFileContent = fs.readFileSync(chatFilePath2, 'utf8');
+		res.json(chatFileContent);
+	} else {
 		const chatData = {
-			owner: ownerUsername,
-			otherPerson: username,
+			participants: [],
 			messages: [],
 		};
-		fs.writeFileSync(chatFilePath, JSON.stringify(chatData, null, 2), 'utf8');
+		res.json(JSON.stringify(chatData));
 	}
-
-	const chatFileContent = fs.readFileSync(chatFilePath, 'utf8');
-	// const chatData = JSON.parse(chatFileContent);
-
-	res.json(chatFileContent);
-	// res.json(chatData);
 });
 
 app.get('/chats', (req, res) => {
@@ -119,10 +160,10 @@ app.get('/chats', (req, res) => {
 
 	const database = JSON.parse(fs.readFileSync(databasePath, 'utf8'));
 
-	if (!database.ownerUsername) {
+	if (!database[`${ownerUsername}`]) {
 		return res.json([]);
 	}
-	res.json(database.ownerUsername);
+	res.json(database[`${ownerUsername}`]);
 });
 
 const getLocalIPAddress = () => {
