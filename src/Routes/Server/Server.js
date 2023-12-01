@@ -55,7 +55,10 @@ const Server = (props) => {
 										name="serverOption"
 										value="host"
 										checked={selectedOption === 'host'}
-										onChange={() => setSelectedOption('host')}
+										onChange={() => {
+											window.ipcRenderer.send('set-hostip');
+											setSelectedOption('host');
+										}}
 									/>
 									<span className={styles['option-name']}>Host</span>
 								</label>
