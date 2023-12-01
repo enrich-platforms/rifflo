@@ -10,11 +10,18 @@ const Navbar = (props) => {
 		dropdownCheckboxRef.current.checked = !dropdownCheckboxRef.current.checked;
 	};
 
+	const reset = () => {
+		if (window.serverData) {
+			window.serverData = '';
+			window.ipcRenderer.send('stop-server');
+		}
+	};
+
 	return (
 		<nav className={styles.navbar}>
 			<div className={styles['navbar-wrapper']}>
-				<div className={styles.logo}>
-					<Link to="/" className={styles.logoLink}>
+				<div className={styles.logo} onClick={reset}>
+					<Link to="/" className={styles.logoLink} onClick={reset}>
 						<img className={styles.logo} src={logo} alt="Rifflo Logo" />
 					</Link>
 				</div>

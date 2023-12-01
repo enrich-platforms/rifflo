@@ -8,6 +8,10 @@
 	cursor: pointer;
 }
 
+.user-chat:hover {
+	background-color: #232323;
+}
+
 .to {
 	background-color: #232323;
 }

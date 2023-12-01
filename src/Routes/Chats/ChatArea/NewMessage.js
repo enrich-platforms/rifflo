@@ -32,7 +32,7 @@ const NewMessage = ({ to, fetchChats }) => {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					fromUsername: JSON.parse(window.userData.userProfileData).username,
+					fromUsername: window.userData.ownerUsername,
 					toUsername: to,
 					message,
 				}),

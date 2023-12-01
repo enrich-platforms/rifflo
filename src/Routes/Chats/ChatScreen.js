@@ -12,7 +12,9 @@ const ChatScreen = (props) => {
 	const fetchChats = async () => {
 		try {
 			const serverURI = window.serverData;
-			const response = await fetch(`http://${serverURI}:49152/chats`);
+			const response = await fetch(
+				`http://${serverURI}:49152/chats?ownerUsername=${window.userData.ownerUsername}`
+			);
 			if (!response.ok) {
 				throw new Error(`HTTP error! Status: ${response.status}`);
 			}

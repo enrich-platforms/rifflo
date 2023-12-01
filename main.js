@@ -157,6 +157,7 @@ ipcMain.on('stop-server', (event) => {
 		serverProcess.kill();
 		serverProcess = null;
 		event.reply('server-stopped');
+		console.log(`Server was stopped`);
 	} else {
 		event.reply('server-not-running');
 	}

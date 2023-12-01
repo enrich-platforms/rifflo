@@ -107,12 +107,22 @@ app.get('/messages', (req, res) => {
 });
 
 app.get('/chats', (req, res) => {
+	const { ownerUsername } = req.query;
+
+	if (!ownerUsername) {
+		return res.status(400).json({ error: 'Username parameter is required' });
+	}
+
 	if (!fs.existsSync(databasePath)) {
 		return res.json([]);
 	}
 
 	const database = JSON.parse(fs.readFileSync(databasePath, 'utf8'));
-	res.json(database.chats);
+
+	if (!database.ownerUsername) {
+		return res.json([]);
+	}
+	res.json(database.ownerUsername);
 });
 
 const getLocalIPAddress = () => {

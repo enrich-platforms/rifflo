@@ -26,15 +26,17 @@ const ChatHistory = ({ username }) => {
 	const [loading, setLoading] = useState(true);
 	const divRef = useRef(null);
 	const prevChildCount = useRef(0);
+	const abortControllerRef = useRef(new AbortController());
 
 	const scrollToBottom = () => {
 		divRef.current.scrollTop = divRef.current.scrollHeight;
 	};
 
 	const fetchMessages = () => {
+		const { signal } = abortControllerRef.current.signal;
 		const serverURI = window.serverData;
 
-		fetch(`http://${serverURI}:49152/messages?username=${username}`)
+		fetch(`http://${serverURI}:49152/messages?username=${username}`, { signal })
 			.then((response) => {
 				if (!response.ok) {
 					throw new Error(`HTTP error! Status: ${response.status}`);
@@ -52,16 +54,21 @@ const ChatHistory = ({ username }) => {
 	};
 
 	useEffect(() => {
+		setLoading(true);
 		let intervalId;
 		// Fetch messages initially
-		setTimeout(() => {
+		const timeout = setTimeout(() => {
 			fetchMessages();
 			// Fetch messages every 2 seconds
 			intervalId = setInterval(fetchMessages, 500);
 		}, 1000);
 		// Cleanup interval on component unmount
-		return () => clearInterval(intervalId);
-	}, []);
+		return () => {
+			abortControllerRef.current.abort();
+			clearInterval(intervalId);
+			clearTimeout(timeout);
+		};
+	}, [username]);
 
 	useEffect(() => {
 		if (divRef.current) {

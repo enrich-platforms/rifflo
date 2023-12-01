@@ -9,6 +9,10 @@ import Server from './Routes/Server/Server';
 function App() {
 	const [isRegistered, setIsRegistered] = useState(window.userData.registered);
 	const logoutHandler = () => {
+		if (window.serverData) {
+			window.serverData = '';
+			window.ipcRenderer.send('stop-server');
+		}
 		window.ipcRenderer.send('logout-user');
 		setIsRegistered(false);
 	};
