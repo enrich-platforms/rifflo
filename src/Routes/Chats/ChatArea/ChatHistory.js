@@ -27,6 +27,7 @@ const ChatHistory = ({ username }) => {
 	const divRef = useRef(null);
 	const prevChildCount = useRef(0);
 	const abortControllerRef = useRef(new AbortController());
+	const fetchInterval = useRef(null);
 
 	const scrollToBottom = () => {
 		divRef.current.scrollTop = divRef.current.scrollHeight;
@@ -51,6 +52,7 @@ const ChatHistory = ({ username }) => {
 				setLoading(false);
 			})
 			.catch((error) => {
+				clearInterval(fetchInterval.current);
 				console.error('Error fetching data:', error);
 				setLoading(false);
 			});
@@ -58,17 +60,16 @@ const ChatHistory = ({ username }) => {
 
 	useEffect(() => {
 		setLoading(true);
-		let intervalId;
 		// Fetch messages initially
 		const timeout = setTimeout(() => {
 			fetchMessages();
 			// Fetch messages every 2 seconds
-			intervalId = setInterval(fetchMessages, 500);
+			fetchInterval.current = setInterval(fetchMessages, 500);
 		}, 1000);
 		// Cleanup interval on component unmount
 		return () => {
 			abortControllerRef.current.abort();
-			clearInterval(intervalId);
+			clearInterval(fetchInterval.current);
 			clearTimeout(timeout);
 		};
 	}, [username]);

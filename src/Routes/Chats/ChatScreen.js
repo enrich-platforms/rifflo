@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './ChatScreen.module.css';
 import Navbar from '../../Components/Navbar/Navbar';
 import ChatArea from './ChatArea/ChatArea';
@@ -8,7 +8,7 @@ const ChatScreen = (props) => {
 	const [chats, setChats] = useState([]);
 	const [to, setTo] = useState('');
 	const [loading, setLoading] = useState(true);
-	let fetchInterval;
+	const fetchInterval = useRef(null);
 
 	const fetchChats = async () => {
 		try {
@@ -23,7 +23,7 @@ const ChatScreen = (props) => {
 			setChats(data);
 			setLoading(false);
 		} catch (error) {
-			clearInterval(fetchInterval);
+			clearInterval(fetchInterval.current);
 			console.error('Error fetching chats:', error);
 		}
 	};
@@ -32,12 +32,12 @@ const ChatScreen = (props) => {
 		// Fetch messages initially
 		const fetchTimeout = setTimeout(() => {
 			fetchChats();
-			fetchInterval = setInterval(fetchChats, 500);
+			fetchInterval.current = setInterval(fetchChats, 500);
 		}, 1000);
 
 		return () => {
-			clearInterval(fetchTimeout);
-			clearInterval(fetchInterval);
+			clearTimeout(fetchTimeout);
+			clearInterval(fetchInterval.current);
 		};
 	}, []);
 
