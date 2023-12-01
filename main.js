@@ -41,12 +41,11 @@ function createWindow() {
 		},
 		icon: '/assets/icon.png',
 	});
-	// if (process.env.NODE_ENV === 'development') {
-	// 	win.loadURL('http://localhost:3000');
-	// } else {
-	// 	win.loadFile('./build/index.html');
-	// }
-	win.loadURL('http://localhost:3000');
+	if (process.env.NODE_ENV === 'development') {
+		win.loadURL('http://localhost:3000');
+	} else {
+		win.loadFile('./build/index.html');
+	}
 
 	globalShortcut.register('CommandOrControl+R', () => {
 		// Do nothing or show a message to indicate the shortcut is disabled

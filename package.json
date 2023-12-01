@@ -20,7 +20,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development electron-forge start",
+    "dev": "cross-env NODE_ENV=development electron-forge start",
+    "start": "npm run build && electron-forge start",
     "serve": "cross-env BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
