@@ -8,6 +8,7 @@ const ChatScreen = (props) => {
 	const [chats, setChats] = useState([]);
 	const [to, setTo] = useState('');
 	const [loading, setLoading] = useState(true);
+	let fetchInterval;
 
 	const fetchChats = async () => {
 		try {
@@ -22,12 +23,12 @@ const ChatScreen = (props) => {
 			setChats(data);
 			setLoading(false);
 		} catch (error) {
+			clearInterval(fetchInterval);
 			console.error('Error fetching chats:', error);
 		}
 	};
 
 	useEffect(() => {
-		let fetchInterval;
 		// Fetch messages initially
 		const fetchTimeout = setTimeout(() => {
 			fetchChats();

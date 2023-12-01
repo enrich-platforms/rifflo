@@ -17,6 +17,7 @@
 }
 
 .user-profile {
+	flex: none;
 	justify-self: center;
 	display: block;
 	position: relative;
@@ -42,6 +43,7 @@
 	flex-direction: column;
 	border-bottom: 1px solid #333333;
 	overflow: hidden;
+	overflow-wrap: break-word;
 }
 
 .user-data {
@@ -61,12 +63,12 @@
 
 .last-message {
 	overflow: hidden;
-	text-wrap: wrap;
+	overflow-block: clip;
+	max-height: 60px;
 }
 
 .last-message > p {
-	overflow: hidden;
-	text-wrap: wrap;
+	overflow-wrap: break-word;
 	margin: 8px 0px 12px 0px;
 	font-size: 14px;
 }
