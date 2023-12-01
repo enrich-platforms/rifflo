@@ -2,6 +2,8 @@
   "name": "rifflo",
   "version": "1.0.0",
   "private": true,
+  "author": "enrich-platforms",
+  "description": "Rifflo is a decentralized networking web app.",
   "main": "main.js",
   "homepage": ".",
   "dependencies": {
