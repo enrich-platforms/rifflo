@@ -3,7 +3,7 @@ import emoji from '../../../Assets/icons/UI/emoji.svg';
 import plus from '../../../Assets/icons/UI/plus.svg';
 import send from '../../../Assets/icons/UI/send.svg';
 import EmojiBox from './EmojiBox';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const NewMessage = ({ to, fetchChats }) => {
 	const [showEmojiBox, setShowEmojiBox] = useState(false);
@@ -46,6 +46,22 @@ const NewMessage = ({ to, fetchChats }) => {
 		}
 	};
 
+	useEffect(() => {
+		resetInput();
+	}, [to]);
+
+	const resetInput = () => {
+		if (inputRef.current) {
+			inputRef.current.textContent = 'Type a message';
+		}
+	};
+	const focusOnInput = () => {
+		if (inputRef.current) {
+			inputRef.current.focus();
+			inputRef.current.textContent = '';
+		}
+	};
+
 	return (
 		<div className={styles['new-message']}>
 			<div className={styles['emoji']}>
@@ -63,6 +79,8 @@ const NewMessage = ({ to, fetchChats }) => {
 					spellCheck="true"
 					title="Type a message"
 					ref={inputRef}
+					onClick={focusOnInput}
+					onBlur={resetInput}
 					onKeyDown={handleKeyDown}
 				>
 					Type a message

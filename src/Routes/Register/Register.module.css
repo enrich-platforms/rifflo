@@ -39,7 +39,7 @@
 }
 
 /* Form Container */
-form {
+.form-container form {
 	background-color: rgb(49, 51, 56);
 	border-radius: 8px;
 	width: 30vw;

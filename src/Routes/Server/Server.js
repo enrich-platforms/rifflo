@@ -38,8 +38,8 @@ const Server = (props) => {
 							<label>
 								<span className={styles['label-text']}>Select an option:</span>
 							</label>
-							<div>
-								<label>
+							<div className={styles['server-options']}>
+								<label className={styles['server-option']}>
 									<input
 										type="radio"
 										name="serverOption"
@@ -47,9 +47,9 @@ const Server = (props) => {
 										checked={selectedOption === 'join'}
 										onChange={() => setSelectedOption('join')}
 									/>
-									Join
+									<span className={styles['option-name']}>Join</span>
 								</label>
-								<label>
+								<label className={styles['server-option']}>
 									<input
 										type="radio"
 										name="serverOption"
@@ -57,12 +57,12 @@ const Server = (props) => {
 										checked={selectedOption === 'host'}
 										onChange={() => setSelectedOption('host')}
 									/>
-									Host
+									<span className={styles['option-name']}>Host</span>
 								</label>
 							</div>
 							{selectedOption === 'join' && (
 								<>
-									<label htmlFor="server">
+									<label htmlFor="join">
 										<span className={styles['label-text']}>Server</span>
 										<input
 											name="server"
@@ -70,12 +70,15 @@ const Server = (props) => {
 											placeholder="Enter server address"
 										/>
 									</label>
-									<button>Join</button>
+									<button type="submit">Join</button>
 								</>
 							)}
 							{selectedOption === 'host' && (
 								<>
-									<label htmlFor="server">
+									<label htmlFor="host">
+										<span className={styles['join-info']}>
+											Send this to people you want to connect with.
+										</span>
 										<span className={styles['label-text']}>
 											{window.localIPAddress}
 										</span>

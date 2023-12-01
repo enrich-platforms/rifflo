@@ -68,6 +68,8 @@
 }
 
 .last-message > p {
+	overflow: hidden;
+	height: 1rem;
 	overflow-wrap: break-word;
 	margin: 8px 0px 12px 0px;
 	font-size: 14px;

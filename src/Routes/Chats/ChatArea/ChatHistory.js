@@ -84,6 +84,12 @@ const ChatHistory = ({ username }) => {
 		}
 	}, [loading, chatHistory.messages]);
 
+	useEffect(() => {
+		if (divRef.current) {
+			scrollToBottom();
+		}
+	}, [loading]);
+
 	return (
 		<div className={styles['chat-history']}>
 			{loading && (

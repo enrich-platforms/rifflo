@@ -1,6 +1,6 @@
 import './App.css';
 import { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import Register from './Routes/Register/Register';
 import Home from './Routes/Home/Home';
 import ChatScreen from './Routes/Chats/ChatScreen';
