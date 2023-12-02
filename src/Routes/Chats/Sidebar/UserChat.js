@@ -2,12 +2,6 @@ import styles from './UserChat.module.css';
 import photo from '../../../Assets/logo.png';
 
 const UserChat = (props) => {
-	let isOnline;
-	if (props.status) {
-		isOnline = new Date() - new Date(props.status) < 2000;
-	} else {
-		isOnline = false;
-	}
 	return (
 		<div
 			className={`${styles['user-chat']} ${
@@ -31,7 +25,6 @@ const UserChat = (props) => {
 					<h2 className={styles['display-name']}>{props.username}</h2>
 					<span>&#8226;</span>
 					<h3 className={styles['username']}>{props.username}</h3>
-					{isOnline && <div className={styles['status']}></div>}
 				</div>
 				<div className={styles['last-message']}>
 					<p>{props.lastMessage}</p>

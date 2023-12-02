@@ -1,7 +1,7 @@
 import styles from './ChatLog.module.css';
 import UserChat from './UserChat';
 
-const ChatLog = ({ to, chats, setTo, statuses }) => {
+const ChatLog = ({ to, chats, setTo }) => {
 	chats.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
 	return (
@@ -13,7 +13,6 @@ const ChatLog = ({ to, chats, setTo, statuses }) => {
 					username={chat.to}
 					lastMessage={chat.lastMessage}
 					setTo={setTo}
-					status={statuses[`${chat.to}`]}
 				/>
 			))}
 		</div>

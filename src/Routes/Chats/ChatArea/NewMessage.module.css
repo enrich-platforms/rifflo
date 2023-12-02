@@ -22,8 +22,8 @@
 	cursor: pointer;
 	align-self: flex-end;
 }
-.new-message > .attachment > img {
-	cursor: progress;
+.new-message > .attachment > label {
+	cursor: pointer;
 }
 
 .attachment > input {

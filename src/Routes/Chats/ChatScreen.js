@@ -47,9 +47,8 @@ const ChatScreen = () => {
 				chats={chatsData.chats}
 				setTo={setTo}
 				loading={loading}
-				statuses={chatsData.statuses}
 			/>
-			<ChatArea to={to} fetchChats={fetchChats} />
+			<ChatArea to={to} fetchChats={fetchChats} statuses={chatsData.statuses} />
 		</div>
 	);
 };

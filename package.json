@@ -4,6 +4,7 @@
   "private": true,
   "author": "enrich-platforms",
   "description": "Rifflo is a decentralized networking web app.",
+  "license": "GPL-3.0",
   "main": "main.js",
   "homepage": ".",
   "dependencies": {
