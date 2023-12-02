@@ -54,6 +54,7 @@ const Register = (props) => {
 										}`}
 										alt="Choose Display Image"
 										src={selectedImage}
+										draggable="false"
 									/>
 								) : (
 									<div

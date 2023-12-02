@@ -1,6 +1,6 @@
 import styles from './NewMessage.module.css';
 import emoji from '../../../Assets/icons/UI/emoji.svg';
-import plus from '../../../Assets/icons/UI/plus.svg';
+import attachment from '../../../Assets/icons/UI/attachment.svg';
 import send from '../../../Assets/icons/UI/send.svg';
 import EmojiBox from './EmojiBox';
 import { useEffect, useRef, useState } from 'react';
@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 const NewMessage = ({ to, fetchChats }) => {
 	const [showEmojiBox, setShowEmojiBox] = useState(false);
 	const emojiRangeRef = useRef(null);
+	const attachmentRef = useRef(null);
 
 	const emojiButtonClicked = () => {
 		setShowEmojiBox(!showEmojiBox);
@@ -76,13 +77,26 @@ const NewMessage = ({ to, fetchChats }) => {
 					setShowEmojiBox(false);
 				}}
 			>
-				<img src={emoji} alt="Emoji Icon" onClick={emojiButtonClicked} />
+				<img
+					src={emoji}
+					alt="Emoji Icon"
+					onClick={emojiButtonClicked}
+					draggable="false"
+				/>
 				{showEmojiBox && (
 					<EmojiBox inputRef={inputRef} range={emojiRangeRef.current} />
 				)}
 			</div>
 			<div className={styles['attachment']}>
-				<img src={plus} alt="Add Icon" />
+				<input name="attachmentFile" type="file" ref={attachmentRef} />
+				<label
+					htmlFor="attachmentFile"
+					onClick={() => {
+						attachmentRef.current.click();
+					}}
+				>
+					<img src={attachment} alt="Attachments" draggable="false" />
+				</label>
 			</div>
 			<div className={styles['text-message-container']}>
 				<div
@@ -108,7 +122,7 @@ const NewMessage = ({ to, fetchChats }) => {
 					type="button"
 					onClick={sendMessage}
 				>
-					<img src={send} alt="Send Btn" />
+					<img src={send} alt="Send Btn" draggable="false" />
 				</button>
 			</div>
 		</div>

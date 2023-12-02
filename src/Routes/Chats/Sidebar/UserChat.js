@@ -23,6 +23,7 @@ const UserChat = (props) => {
 					className={styles['display-image']}
 					src={photo}
 					alt="Chat Display Picture"
+					draggable="false"
 				></img>
 			</div>
 			<div className={styles['chat-info']}>

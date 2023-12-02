@@ -29,10 +29,7 @@ function App() {
 							element={<Register setIsRegistered={setIsRegistered} />}
 						/>
 					)}
-					<Route
-						path="/chats"
-						element={<ChatScreen logoutHandler={logoutHandler} />}
-					></Route>
+					<Route path="/chats" element={<ChatScreen />}></Route>
 					<Route
 						path="/server"
 						element={<Server logoutHandler={logoutHandler} />}

@@ -94,7 +94,7 @@ const ChatHistory = ({ username }) => {
 		<div className={styles['chat-history']}>
 			{loading && (
 				<div className={styles['loading']}>
-					<img src={loadingGIF} alt="loading" />
+					<img src={loadingGIF} alt="loading" draggable="false" />
 				</div>
 			)}
 			{!loading && chatHistory.messages && (

@@ -9,9 +9,17 @@ const Sidebar = ({ to, chats, setTo, loading, statuses }) => {
 			className={`${styles['sidebar']} ${loading ? `${styles['gif-bg']}` : ''}`}
 		>
 			{loading && (
-				<img className={styles.loading} src={loadingGIF} alt="loading" />
+				<img
+					className={styles.loading}
+					src={loadingGIF}
+					alt="loading"
+					draggable="false"
+				/>
 			)}
-			{!loading && <NewChat setTo={setTo} />}
+			<NewChat
+				setTo={setTo}
+				stylesOverrider={{ position: `${loading ? 'absolute' : 'relative'}` }}
+			/>
 			{!loading && (
 				<ChatLog
 					to={to}

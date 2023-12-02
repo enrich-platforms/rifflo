@@ -18,9 +18,16 @@
 }
 
 .new-message > .attachment {
-	margin: 12px 16px 12px 8px;
+	margin: 12px 16px 12px 12px;
 	cursor: pointer;
 	align-self: flex-end;
+}
+.new-message > .attachment > img {
+	cursor: progress;
+}
+
+.attachment > input {
+	display: none;
 }
 
 .text-message-container {

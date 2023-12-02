@@ -2,7 +2,7 @@ import styles from './ChatArea.module.css';
 import NewMessage from './NewMessage';
 import background from '../../../Assets/chat-screen.png';
 import ChatHistory from './ChatHistory';
-import Menu from './Menu';
+import ChatDetails from './ChatDetails';
 
 const ChatArea = ({ to, fetchChats }) => {
 	return (
@@ -13,6 +13,7 @@ const ChatArea = ({ to, fetchChats }) => {
 						src={background}
 						alt="No Chat Selected"
 						className={styles['placeholder-image']}
+						draggable="false"
 					/>
 					<p className={styles['placeholder-text']}>
 						Select a chat to start messaging
@@ -20,7 +21,7 @@ const ChatArea = ({ to, fetchChats }) => {
 				</div>
 			) : (
 				<>
-					<Menu />
+					<ChatDetails />
 					<ChatHistory username={to} />
 					<NewMessage to={to} fetchChats={fetchChats} />
 				</>

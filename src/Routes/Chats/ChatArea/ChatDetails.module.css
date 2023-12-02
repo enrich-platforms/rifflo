@@ -1,0 +1,43 @@
+.chat-details {
+	padding: 1rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	background: #212121;
+}
+
+.user-image {
+	background: transparent;
+	outline: none;
+	border: none;
+	cursor: pointer;
+}
+
+.user-image > img {
+	background: grey;
+	padding: 6px;
+	border-radius: 50%;
+}
+
+.details-wrapper {
+	display: flex;
+}
+
+.user-info {
+	margin-left: 8px;
+}
+
+.display-name {
+	font-weight: 600;
+}
+
+.status {
+	margin-top: 4px;
+	font-size: 13px;
+	color: rgb(168, 168, 168);
+}
+
+.online {
+	color: green;
+}

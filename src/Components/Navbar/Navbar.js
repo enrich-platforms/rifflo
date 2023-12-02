@@ -27,7 +27,12 @@ const Navbar = (props) => {
 			<div className={styles['navbar-wrapper']}>
 				<div className={styles.logo} onClick={reset}>
 					<Link to="/" className={styles.logoLink} onClick={reset}>
-						<img className={styles.logo} src={logo} alt="Rifflo Logo" />
+						<img
+							className={styles.logo}
+							src={logo}
+							alt="Rifflo Logo"
+							draggable="false"
+						/>
 					</Link>
 				</div>
 				{props.children}
@@ -45,6 +50,7 @@ const Navbar = (props) => {
 									className={styles.displayImage}
 									src={JSON.parse(window.userData.userProfileData).displayImage}
 									alt="User Profile"
+									draggable="false"
 								/>
 							</button>
 						</label>

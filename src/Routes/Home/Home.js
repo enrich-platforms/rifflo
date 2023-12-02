@@ -18,7 +18,7 @@ const Home = (props) => {
 		<div className={styles.container}>
 			{loading && (
 				<div className={styles['loading']}>
-					<img src={loadingGIF} alt="loading" />
+					<img src={loadingGIF} alt="loading" draggable="false" />
 				</div>
 			)}
 			{!loading && (

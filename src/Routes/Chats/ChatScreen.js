@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './ChatScreen.module.css';
-import Navbar from '../../Components/Navbar/Navbar';
 import ChatArea from './ChatArea/ChatArea';
 import Sidebar from './Sidebar/Sidebar';
 
-const ChatScreen = (props) => {
+const ChatScreen = () => {
 	const [chatsData, setChatsData] = useState([]);
 	const [to, setTo] = useState('');
 	const [loading, setLoading] = useState(true);
@@ -43,7 +42,6 @@ const ChatScreen = (props) => {
 
 	return (
 		<div className={styles.chats}>
-			<Navbar logoutHandler={props.logoutHandler}></Navbar>
 			<Sidebar
 				to={to}
 				chats={chatsData.chats}
