@@ -18,7 +18,12 @@ const Navbar = (props) => {
 	};
 
 	return (
-		<nav className={styles.navbar} onBlur={toggleDropdown}>
+		<nav
+			className={styles.navbar}
+			onBlur={() => {
+				dropdownCheckboxRef.current.checked = false;
+			}}
+		>
 			<div className={styles['navbar-wrapper']}>
 				<div className={styles.logo} onClick={reset}>
 					<Link to="/" className={styles.logoLink} onClick={reset}>

@@ -5,22 +5,23 @@ const EmojiBox = ({ inputRef }) => {
 
 	const emojiHandler = (emoji) => {
 		const input = inputRef.current;
+		if (input.textContent === 'Type a message' || input.textContent === '') {
+			input.textContent = '';
+			input.innerHTML += emoji;
+		} else {
+			// Save the current selection
+			const selection = window.getSelection();
+			const range = selection.getRangeAt(0);
 
-		// Save the current selection
-		const selection = window.getSelection();
-		const range = selection.getRangeAt(0);
+			// Insert the emoji at the end
+			input.innerHTML += emoji;
 
-		// Insert the emoji at the end
-		input.innerHTML += emoji;
-
-		// Move the cursor to the end
-		range.setStart(input.lastChild, input.lastChild.length);
-		range.collapse(true);
-		selection.removeAllRanges();
-		selection.addRange(range);
-
-		// Set focus to the input
-		input.focus();
+			// Move the cursor to the end
+			range.setStart(input.lastChild, input.lastChild.length);
+			range.collapse(true);
+			selection.removeAllRanges();
+			selection.addRange(range);
+		}
 	};
 
 	return (

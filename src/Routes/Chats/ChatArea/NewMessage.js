@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const NewMessage = ({ to, fetchChats }) => {
 	const [showEmojiBox, setShowEmojiBox] = useState(false);
+	const emojiRangeRef = useRef(null);
 
 	const emojiButtonClicked = () => {
 		setShowEmojiBox(!showEmojiBox);
@@ -48,38 +49,53 @@ const NewMessage = ({ to, fetchChats }) => {
 
 	useEffect(() => {
 		resetInput();
-	}, [to]);
-
-	const resetInput = () => {
 		if (inputRef.current) {
 			inputRef.current.textContent = 'Type a message';
 		}
+	}, [to]);
+
+	const resetInput = () => {
+		if (inputRef.current && inputRef.current.textContent === '') {
+			inputRef.current.textContent = 'Type a message';
+		}
 	};
-	const focusOnInput = () => {
+	const focusOnInput = (event) => {
 		if (inputRef.current) {
-			inputRef.current.focus();
-			inputRef.current.textContent = '';
+			if (inputRef.current.textContent === 'Type a message') {
+				inputRef.current.textContent = '';
+			}
 		}
 	};
 
 	return (
 		<div className={styles['new-message']}>
-			<div className={styles['emoji']}>
+			<div
+				className={styles['emoji']}
+				tabIndex={0}
+				onBlur={(event) => {
+					setShowEmojiBox(false);
+				}}
+			>
 				<img src={emoji} alt="Emoji Icon" onClick={emojiButtonClicked} />
-				{showEmojiBox && <EmojiBox inputRef={inputRef} />}
+				{showEmojiBox && (
+					<EmojiBox inputRef={inputRef} range={emojiRangeRef.current} />
+				)}
 			</div>
 			<div className={styles['attachment']}>
 				<img src={plus} alt="Add Icon" />
 			</div>
 			<div className={styles['text-message-container']}>
 				<div
-					contentEditable="true"
+					tabIndex={-1}
+					contentEditable={showEmojiBox ? 'false' : 'true'}
 					suppressContentEditableWarning={true}
 					className={`${styles['writtable']} `}
 					spellCheck="true"
 					title="Type a message"
 					ref={inputRef}
-					onClick={focusOnInput}
+					onClick={() => {
+						focusOnInput();
+					}}
 					onBlur={resetInput}
 					onKeyDown={handleKeyDown}
 				>
