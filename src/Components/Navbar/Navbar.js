@@ -18,7 +18,7 @@ const Navbar = (props) => {
 	};
 
 	return (
-		<nav className={styles.navbar}>
+		<nav className={styles.navbar} onBlur={toggleDropdown}>
 			<div className={styles['navbar-wrapper']}>
 				<div className={styles.logo} onClick={reset}>
 					<Link to="/" className={styles.logoLink} onClick={reset}>

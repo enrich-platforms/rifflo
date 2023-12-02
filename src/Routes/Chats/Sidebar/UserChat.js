@@ -4,7 +4,7 @@ import photo from '../../../Assets/logo.png';
 const UserChat = (props) => {
 	let isOnline;
 	if (props.status) {
-		isOnline = new Date() - new Date(props.status) < 3;
+		isOnline = new Date() - new Date(props.status) < 2000;
 	} else {
 		isOnline = false;
 	}
