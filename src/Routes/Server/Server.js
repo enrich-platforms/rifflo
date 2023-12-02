@@ -16,25 +16,44 @@ const Server = (props) => {
 		if (selectedOption === 'join') {
 			const formData = new FormData(event.target);
 			const serverURI = formData.get('server').trim();
-			fetch(`http://${serverURI}:49152/send-profile`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(window.userData),
-			}).catch((error) => {
-				console.error('Error:', error);
-			});
+			setTimeout(() => {
+				fetch(`http://${serverURI}:49152/send-profile`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						filename: window.userData.ownerUsername,
+						profile: window.userData.userProfileData,
+					}),
+				}).catch((error) => {
+					console.error('Error:', error);
+				});
 
-			try {
-				window.ipcRenderer.send('set-server', serverURI);
-			} catch (error) {
-				console.log(error);
-			}
+				try {
+					window.ipcRenderer.send('set-server', serverURI);
+				} catch (error) {
+					console.log(error);
+				}
+			}, 2000);
 			navigate('/chats');
 		} else if (selectedOption === 'host') {
 			startSever();
 			navigate('/chats');
+			setTimeout(() => {
+				fetch(`http://${window.localIPAddress}:49152/profiles`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						filename: window.userData.ownerUsername,
+						profile: window.userData.userProfileData,
+					}),
+				}).catch((error) => {
+					console.error('Error:', error);
+				});
+			}, 2000);
 		}
 	};
 

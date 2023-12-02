@@ -15,8 +15,8 @@
 
 .user-image > img {
 	background: grey;
-	padding: 12px;
 	border-radius: 50%;
+	height: 36px;
 }
 
 .details-wrapper {
@@ -41,8 +41,13 @@
 	margin-top: 4px;
 	font-size: 13px;
 	color: rgb(168, 168, 168);
+	transition: display 0.4s ease-in;
 }
 
 .online {
 	color: rgb(0, 150, 0);
+}
+
+.never {
+	display: none;
 }

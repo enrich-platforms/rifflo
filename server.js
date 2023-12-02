@@ -7,8 +7,8 @@ const path = require('path');
 
 const app = express();
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
+app.use(bodyParser.json({ limit: '50mb' }));
 
 const ownerUsername = process.argv[2];
 const userDataPath = process.argv[3];
@@ -176,28 +176,9 @@ app.get('/chats', (req, res) => {
 	res.json({ chats: database[`${ownerUsername}`], statuses: status });
 });
 
-const getLocalIPAddress = () => {
-	const interfaces = os.networkInterfaces();
-	for (const name in interfaces) {
-		for (const net of interfaces[name]) {
-			if (net.family === 'IPv4' && !net.internal) {
-				return net.address;
-			}
-		}
-	}
-};
-
-const IP_ADDRESS = getLocalIPAddress();
-const PORT = 49152;
-
-app.listen(PORT, IP_ADDRESS, () => {
-	console.log(`${IP_ADDRESS}`);
-});
-
-app.post('/send-profile', (req, res) => {
-	const profile = req.body;
-	const profileFile = profile.ownerUsername;
-	const profileFilePath = path.join(profilesDirectory, `${profileFile}.json`);
+app.post('/profiles', (req, res) => {
+	const { filename, profile } = req.body;
+	const profileFilePath = path.join(profilesDirectory, `${filename}.json`);
 
 	fs.writeFileSync(profileFilePath, JSON.stringify(profile, null, 2), 'utf8');
 
@@ -218,6 +199,22 @@ app.get('/profiles', (req, res) => {
 		const profileFileContent = fs.readFileSync(profileFilePath, 'utf8');
 		res.json(profileFileContent);
 	} else {
-		res.json({});
+		res.json(JSON.stringify({}));
 	}
 });
+
+const getLocalIPAddress = () => {
+	const interfaces = os.networkInterfaces();
+	for (const name in interfaces) {
+		for (const net of interfaces[name]) {
+			if (net.family === 'IPv4' && !net.internal) {
+				return net.address;
+			}
+		}
+	}
+};
+
+const IP_ADDRESS = getLocalIPAddress();
+const PORT = 49152;
+
+app.listen(PORT, IP_ADDRESS);

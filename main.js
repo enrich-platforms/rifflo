@@ -43,8 +43,9 @@ initializeUser();
 function createWindow() {
 	const win = new BrowserWindow({
 		fullscreen: true,
-		minWidth: 1024,
-		minHeight: 720,
+		minWidth: 720,
+		minHeight: 480,
+		frame: true,
 		webPreferences: {
 			contextIsolation: true,
 			preload: preloadPath,
@@ -152,8 +153,9 @@ ipcMain.on('start-server', (event) => {
 		path.join(app.getPath('userData'), 'data'),
 	]);
 
+	event.reply('server-up', getLocalIPAddress());
 	serverProcess.stdout.on('data', (data) => {
-		event.reply('server-up', data.toString());
+		console.log(data);
 	});
 
 	serverProcess.on('close', (code) => {

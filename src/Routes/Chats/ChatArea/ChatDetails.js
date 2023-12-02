@@ -1,8 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ChatDetails.module.css';
 import userIcon from './../../../Assets/icons/UI/user.svg';
 
 const ChatDetails = ({ user, statuses }) => {
+	const [userPhoto, setUserPhoto] = useState(userIcon);
+	const [displayName, setDisplayName] = useState(user);
+	const fetchChats = async () => {
+		try {
+			const serverURI = window.serverData;
+			const response = await fetch(
+				`http://${serverURI}:49152/profiles?username=${user}`
+			);
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
+			}
+			const data = await response.json();
+			let parsedData = data;
+			while (typeof parsedData === 'string') {
+				parsedData = JSON.parse(parsedData);
+			}
+			if (parsedData.displayImage) {
+				setUserPhoto(parsedData.displayImage);
+			} else {
+				setUserPhoto(userIcon);
+			}
+			if (parsedData.displayName) {
+				setDisplayName(parsedData.displayName);
+			} else {
+				setDisplayName(user);
+			}
+		} catch (error) {
+			console.error('Error fetching chats:', error);
+		}
+	};
+	useEffect(() => {
+		fetchChats();
+	}, [user]);
 	let isOnline;
 	let lastSeen;
 
@@ -39,13 +72,17 @@ const ChatDetails = ({ user, statuses }) => {
 		<div className={styles['chat-details']}>
 			<div className={styles['details-wrapper']}>
 				<div className={styles['user-image']}>
-					<img src={userIcon} alt="User Profile" draggable="false" />
+					<img src={userPhoto} alt="User Profile" draggable="false" />
 				</div>
 				<div className={styles['user-info']}>
-					<div className={styles['display-name']}>Display Name</div>
+					<div className={styles['display-name']}>{displayName}</div>
 					<div
 						className={`${styles['status']} ${
-							isOnline ? styles['online'] : ''
+							isOnline
+								? styles['online']
+								: `${lastSeen}` === ''
+								? styles['never']
+								: ''
 						}`}
 					>
 						{isOnline ? 'online' : `${lastSeen}`}
