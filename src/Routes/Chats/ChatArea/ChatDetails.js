@@ -1,19 +1,40 @@
+import React from 'react';
 import styles from './ChatDetails.module.css';
 import userIcon from './../../../Assets/icons/UI/user.svg';
 
 const ChatDetails = ({ user, statuses }) => {
 	let isOnline;
 	let lastSeen;
+
 	if (statuses[`${user}`]) {
 		isOnline = new Date() - new Date(statuses[`${user}`]) < 2000;
 	} else {
 		isOnline = false;
 	}
+
 	if (!isOnline) {
-		lastSeen = Math.floor(
-			(new Date() - new Date(statuses[`${user}`])) / (1000 * 60)
-		);
+		const timeDifference = new Date() - new Date(statuses[`${user}`]);
+		const seconds = Math.floor(timeDifference / 1000);
+		const minutes = Math.floor(seconds / 60);
+		const hours = Math.floor(minutes / 60);
+		const days = Math.floor(hours / 24);
+		const weeks = Math.floor(days / 7);
+
+		if (seconds < 60) {
+			lastSeen = `last seen few seconds ago`;
+		} else if (minutes < 60) {
+			lastSeen = `last seen ${minutes}m ago`;
+		} else if (hours < 24) {
+			lastSeen = `last seen ${hours}h ago`;
+		} else if (days < 7) {
+			lastSeen = `last seen ${days}d ago`;
+		} else if (weeks < 52) {
+			lastSeen = `last seen ${weeks}w ago`;
+		} else {
+			lastSeen = '';
+		}
 	}
+
 	return (
 		<div className={styles['chat-details']}>
 			<div className={styles['details-wrapper']}>
@@ -27,7 +48,7 @@ const ChatDetails = ({ user, statuses }) => {
 							isOnline ? styles['online'] : ''
 						}`}
 					>
-						{isOnline ? 'online' : `last seen ${lastSeen}m ago`}
+						{isOnline ? 'online' : `${lastSeen}`}
 					</div>
 				</div>
 			</div>
