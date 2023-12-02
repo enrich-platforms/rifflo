@@ -15,9 +15,19 @@ const Server = (props) => {
 		event.preventDefault();
 		if (selectedOption === 'join') {
 			const formData = new FormData(event.target);
-			const server = formData.get('server').trim();
+			const serverURI = formData.get('server').trim();
+			fetch(`http://${serverURI}:49152/send-profile`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(window.userData),
+			}).catch((error) => {
+				console.error('Error:', error);
+			});
+
 			try {
-				window.ipcRenderer.send('set-server', server);
+				window.ipcRenderer.send('set-server', serverURI);
 			} catch (error) {
 				console.log(error);
 			}

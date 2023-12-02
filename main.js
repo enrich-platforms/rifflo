@@ -24,6 +24,10 @@ const initializeUser = () => {
 		fs.writeFileSync(userDatabase, JSON.stringify({}));
 	}
 
+	if (!fs.existsSync(path.join(userDataPath, 'profiles'))) {
+		fs.mkdirSync(path.join(userDataPath, 'profiles'));
+	}
+
 	if (!fs.existsSync(path.join(chatsDirectory, 'status.json'))) {
 		fs.writeFileSync(
 			path.join(chatsDirectory, 'status.json'),
@@ -41,7 +45,6 @@ function createWindow() {
 		fullscreen: true,
 		minWidth: 1024,
 		minHeight: 720,
-		frame: false,
 		webPreferences: {
 			contextIsolation: true,
 			preload: preloadPath,

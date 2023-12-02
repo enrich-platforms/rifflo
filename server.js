@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 const ownerUsername = process.argv[2];
 const userDataPath = process.argv[3];
 const chatsDirectory = path.join(userDataPath, 'chats');
+const profilesDirectory = path.join(userDataPath, 'profiles');
 const databasePath = path.join(userDataPath, 'chats', 'database.json');
 
 const updateDatabase = (fromUsername, toUsername, messasgeData) => {
@@ -191,4 +192,32 @@ const PORT = 49152;
 
 app.listen(PORT, IP_ADDRESS, () => {
 	console.log(`${IP_ADDRESS}`);
+});
+
+app.post('/send-profile', (req, res) => {
+	const profile = req.body;
+	const profileFile = profile.ownerUsername;
+	const profileFilePath = path.join(profilesDirectory, `${profileFile}.json`);
+
+	fs.writeFileSync(profileFilePath, JSON.stringify(profile, null, 2), 'utf8');
+
+	res.json({ success: true, message: 'Profile received successfully' });
+});
+
+app.get('/profiles', (req, res) => {
+	const { username } = req.query;
+
+	if (!username) {
+		return res.status(400).json({ error: 'Username parameter is required' });
+	}
+
+	const profileFile = `${username}`;
+	const profileFilePath = path.join(profilesDirectory, `${profileFile}.json`);
+
+	if (fs.existsSync(profileFilePath)) {
+		const profileFileContent = fs.readFileSync(profileFilePath, 'utf8');
+		res.json(profileFileContent);
+	} else {
+		res.json({});
+	}
 });

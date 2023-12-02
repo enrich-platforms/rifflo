@@ -1,6 +1,5 @@
 import styles from './ChatDetails.module.css';
-
-import home from '../../../Assets/icons/UI/home.svg';
+import userIcon from './../../../Assets/icons/UI/user.svg';
 
 const ChatDetails = ({ user, statuses }) => {
 	let isOnline;
@@ -15,12 +14,11 @@ const ChatDetails = ({ user, statuses }) => {
 			(new Date() - new Date(statuses[`${user}`])) / (1000 * 60)
 		);
 	}
-
 	return (
 		<div className={styles['chat-details']}>
 			<div className={styles['details-wrapper']}>
 				<div className={styles['user-image']}>
-					<img src={home} alt="User Profile" draggable="false" />
+					<img src={userIcon} alt="User Profile" draggable="false" />
 				</div>
 				<div className={styles['user-info']}>
 					<div className={styles['display-name']}>Display Name</div>
