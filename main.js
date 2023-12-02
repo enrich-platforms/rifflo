@@ -7,7 +7,7 @@ const os = require('os');
 // Define paths
 const preloadPath = path.join(__dirname, 'preload.js');
 const userDataPath = path.join(app.getPath('userData'), 'data');
-
+const chatsDirectory = path.join(userDataPath, 'chats');
 // Ensure user data directory exists
 const initializeUser = () => {
 	if (!fs.existsSync(userDataPath)) {
@@ -23,6 +23,14 @@ const initializeUser = () => {
 		const userDatabase = path.join(userDataPath, 'chats', 'database.json');
 		fs.writeFileSync(userDatabase, JSON.stringify({}));
 	}
+
+	if (!fs.existsSync(path.join(chatsDirectory, 'status.json'))) {
+		fs.writeFileSync(
+			path.join(chatsDirectory, 'status.json'),
+			JSON.stringify({}, null, 2),
+			'utf8'
+		);
+	}
 };
 
 initializeUser();
@@ -35,7 +43,6 @@ function createWindow() {
 		minHeight: 720,
 		frame: false,
 		webPreferences: {
-			devTools: process.env.NODE_ENV === 'development',
 			contextIsolation: true,
 			preload: preloadPath,
 		},

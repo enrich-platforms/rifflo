@@ -155,15 +155,24 @@ app.get('/chats', (req, res) => {
 	}
 
 	if (!fs.existsSync(databasePath)) {
-		return res.json([]);
+		return res.json({ chats: [], statuses: {} });
 	}
 
 	const database = JSON.parse(fs.readFileSync(databasePath, 'utf8'));
+	const status = JSON.parse(
+		fs.readFileSync(path.join(chatsDirectory, 'status.json'), 'utf8')
+	);
+	status[`${ownerUsername}`] = new Date().toISOString();
+	fs.writeFileSync(
+		path.join(chatsDirectory, 'status.json'),
+		JSON.stringify(status, null, 2),
+		'utf8'
+	);
 
 	if (!database[`${ownerUsername}`]) {
-		return res.json([]);
+		return res.json({ chats: [], statuses: status });
 	}
-	res.json(database[`${ownerUsername}`]);
+	res.json({ chats: database[`${ownerUsername}`], statuses: status });
 });
 
 const getLocalIPAddress = () => {

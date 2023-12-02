@@ -5,7 +5,7 @@ import ChatArea from './ChatArea/ChatArea';
 import Sidebar from './Sidebar/Sidebar';
 
 const ChatScreen = (props) => {
-	const [chats, setChats] = useState([]);
+	const [chatsData, setChatsData] = useState([]);
 	const [to, setTo] = useState('');
 	const [loading, setLoading] = useState(true);
 	const fetchInterval = useRef(null);
@@ -20,7 +20,7 @@ const ChatScreen = (props) => {
 				throw new Error(`HTTP error! Status: ${response.status}`);
 			}
 			const data = await response.json();
-			setChats(data);
+			setChatsData(data);
 			setLoading(false);
 		} catch (error) {
 			clearInterval(fetchInterval.current);
@@ -44,7 +44,13 @@ const ChatScreen = (props) => {
 	return (
 		<div className={styles.chats}>
 			<Navbar logoutHandler={props.logoutHandler}></Navbar>
-			<Sidebar to={to} chats={chats} setTo={setTo} loading={loading} />
+			<Sidebar
+				to={to}
+				chats={chatsData.chats}
+				setTo={setTo}
+				loading={loading}
+				statuses={chatsData.statuses}
+			/>
 			<ChatArea to={to} fetchChats={fetchChats} />
 		</div>
 	);

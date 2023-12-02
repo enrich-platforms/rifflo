@@ -17,7 +17,9 @@ const Menu = ({ setTo }) => {
 	};
 
 	const submitNewChatHandler = () => {
-		setTo(newChatText);
+		if (newChatText !== window.userData.ownerUsername) {
+			setTo(newChatText);
+		}
 		setIsModalOpen(false);
 		setNewChatText('');
 	};
