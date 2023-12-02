@@ -2,6 +2,7 @@ import styles from './ChatArea.module.css';
 import NewMessage from './NewMessage';
 import background from '../../../Assets/chat-screen.png';
 import ChatHistory from './ChatHistory';
+import Menu from './Menu';
 
 const ChatArea = ({ to, fetchChats }) => {
 	return (
@@ -19,6 +20,7 @@ const ChatArea = ({ to, fetchChats }) => {
 				</div>
 			) : (
 				<>
+					<Menu />
 					<ChatHistory username={to} />
 					<NewMessage to={to} fetchChats={fetchChats} />
 				</>

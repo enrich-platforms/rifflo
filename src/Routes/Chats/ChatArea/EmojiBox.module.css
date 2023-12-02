@@ -18,7 +18,19 @@
 }
 
 .EmojiBoxWrapper > ul::-webkit-scrollbar {
-	width: 0px;
+	width: 6px;
+}
+
+.EmojiBoxWrapper > ul::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.EmojiBoxWrapper > ul::-webkit-scrollbar-thumb {
+	background: #777;
+}
+
+.EmojiBoxWrapper > ul::-webkit-scrollbar-thumb:hover {
+	background: #555;
 }
 
 .EmojiBoxWrapper > ul > li:hover {

@@ -2,7 +2,8 @@ import styles from './ChatLog.module.css';
 import UserChat from './UserChat';
 
 const ChatLog = ({ to, chats, setTo, statuses }) => {
-	// chats.sort((a, b) => a.timestamp.localeCompare(b.timestamp));
+	chats.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
 	return (
 		<div className={styles['chat-log']}>
 			{chats.map((chat, index) => (

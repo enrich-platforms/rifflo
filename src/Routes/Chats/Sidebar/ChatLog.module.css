@@ -2,3 +2,19 @@
 	width: 100%;
 	overflow-y: auto;
 }
+
+.chat-log::-webkit-scrollbar {
+	width: 6px;
+}
+
+.chat-log::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.chat-log::-webkit-scrollbar-thumb {
+	background: #777;
+}
+
+.chat-log::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}

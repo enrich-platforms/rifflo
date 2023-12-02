@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './NewChat.module.css';
-import plus from '../../../Assets/icons/UI/plus.svg';
+import newChat from '../../../Assets/icons/UI/new-chat.svg';
 
 const NewChat = ({ setTo }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,10 +30,10 @@ const NewChat = ({ setTo }) => {
 	}, [isModalOpen]);
 	return (
 		<div className={styles['new-chat']}>
+			<div className={styles['title']}>Chats</div>
 			<button className={styles['new-button']} onClick={newChatHandler}>
-				<img src={plus} alt="New Chat" />
+				<img src={newChat} alt="New Chat" />
 			</button>
-
 			{isModalOpen && (
 				<>
 					<div
