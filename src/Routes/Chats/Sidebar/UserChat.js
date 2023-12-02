@@ -1,5 +1,5 @@
 import styles from './UserChat.module.css';
-import photo from '../../../Assets/logo.png';
+import photo from '../../../Assets/icons/UI/user.svg';
 
 const UserChat = (props) => {
 	return (

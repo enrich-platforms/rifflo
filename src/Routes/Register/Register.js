@@ -16,23 +16,34 @@ const Register = (props) => {
 	const registerHandler = async (event) => {
 		event.preventDefault();
 		const formData = new FormData(event.target);
-		const reader = new FileReader();
-		reader.onload = (event) => {
-			const base64Image = event.target.result;
-			let profile = {
-				displayName: formData.get('display-name'),
-				username: formData.get('username'),
-				displayImage: base64Image,
-			};
 
-			try {
-				window.ipcRenderer.send('register-user', profile);
-			} catch (error) {
-				console.log(error);
-			}
-		};
-		reader.readAsDataURL(displayImageRef.current.files[0]);
-		props.setIsRegistered(true);
+		if (!displayImageRef.current?.files[0]) {
+			alert('Please upload a profile photo!');
+		} else {
+			const reader = new FileReader();
+			reader.onload = (event) => {
+				const base64Image = event.target.result;
+				let profile = {
+					displayName: formData.get('display-name'),
+					username: formData.get('username'),
+					displayImage: base64Image,
+				};
+
+				if (!profile.displayName || !profile.username) {
+					alert('Please fill all the fields correctly!');
+					return;
+				} else {
+					try {
+						window.ipcRenderer.send('register-user', profile);
+					} catch (error) {
+						console.log(error);
+					}
+
+					props.setIsRegistered(true);
+				}
+			};
+			reader.readAsDataURL(displayImageRef.current.files[0]);
+		}
 	};
 
 	return (
