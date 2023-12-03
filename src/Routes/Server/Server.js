@@ -16,6 +16,11 @@ const Server = (props) => {
 		if (selectedOption === 'join') {
 			const formData = new FormData(event.target);
 			const serverURI = formData.get('server').trim();
+			try {
+				window.ipcRenderer.send('set-server', serverURI);
+			} catch (error) {
+				console.log(error);
+			}
 			setTimeout(() => {
 				fetch(`http://${serverURI}:49152/send-profile`, {
 					method: 'POST',
@@ -29,12 +34,6 @@ const Server = (props) => {
 				}).catch((error) => {
 					console.error('Error:', error);
 				});
-
-				try {
-					window.ipcRenderer.send('set-server', serverURI);
-				} catch (error) {
-					console.log(error);
-				}
 			}, 2000);
 			navigate('/chats');
 		} else if (selectedOption === 'host') {
